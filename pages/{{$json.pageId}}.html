@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cardápio Digital — Essentia Experience</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            essentia: {
+              50:  '#f0fdf4',
+              100: '#dcfce7',
+              200: '#bbf7d0',
+              300: '#86efac',
+              400: '#4ade80',
+              500: '#22c55e',
+              600: '#16a34a',
+              700: '#15803d',
+              800: '#166534',
+              900: '#14532d',
+            },
+            gold: {
+              400: '#fbbf24',
+              500: '#f59e0b',
+              600: '#d97706',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #86efac; border-radius: 3px; }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-16px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes pulse-green {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.4); }
+      50%       { box-shadow: 0 0 0 8px rgba(34,197,94,0); }
+    }
+    .fade-in   { animation: fadeIn 0.4s ease forwards; }
+    .slide-in  { animation: slideIn 0.35s ease forwards; }
+    .pulse-btn { animation: pulse-green 2s infinite; }
+
+    /* Glass card */
+    .glass {
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.6);
+    }
+
+    /* Gradient bg */
+    .bg-hero {
+      background: linear-gradient(135deg, #14532d 0%, #166534 30%, #15803d 60%, #16a34a 100%);
+    }
+
+    /* Tab active */
+    .tab-active {
+      background: linear-gradient(135deg, #16a34a, #15803d);
+      color: white;
+      box-shadow: 0 4px 14px rgba(22,163,74,0.4);
+    }
+
+    /* Status badges */
+    .badge-pendente       { background:#fef3c7; color:#92400e; border:1px solid #fcd34d; }
+    .badge-producao       { background:#dbeafe; color:#1e40af; border:1px solid #93c5fd; }
+    .badge-revisao        { background:#ede9fe; color:#5b21b6; border:1px solid #c4b5fd; }
+    .badge-aprovada       { background:#d1fae5; color:#065f46; border:1px solid #6ee7b7; }
+    .badge-publicada      { background:#dcfce7; color:#14532d; border:1px solid #4ade80; }
+    .badge-na             { background:#f1f5f9; color:#64748b; border:1px solid #cbd5e1; }
+
+    /* Table */
+    .tbl th { background: linear-gradient(135deg,#166534,#15803d); color:white; }
+    .tbl tr:hover td { background:#f0fdf4; }
+    .tbl td, .tbl th { padding:10px 12px; font-size:13px; }
+
+    /* Recipe card hover */
+    .recipe-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.12); }
+    .recipe-card { transition: all 0.3s ease; }
+
+    /* Markdown preview */
+    .md-preview pre { background:#1e293b; color:#e2e8f0; padding:16px; border-radius:8px; overflow-x:auto; font-size:12px; line-height:1.6; }
+
+    /* Modal */
+    .modal-overlay { backdrop-filter: blur(4px); }
+
+    /* Nutrition row */
+    .nutr-row:nth-child(even) { background:#f0fdf4; }
+
+    /* Tooltip */
+    [data-tooltip]:hover::after {
+      content: attr(data-tooltip);
+      position: absolute; bottom: 110%; left: 50%; transform: translateX(-50%);
+      background: #1e293b; color: white; padding: 4px 8px; border-radius: 4px;
+      font-size: 11px; white-space: nowrap; pointer-events: none; z-index: 100;
+    }
+    [data-tooltip] { position: relative; }
+
+    /* Input focus */
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #16a34a;
+      box-shadow: 0 0 0 3px rgba(22,163,74,0.15);
+    }
+
+    /* Sidebar nav item */
+    .nav-item { transition: all 0.2s ease; border-radius: 10px; }
+    .nav-item:hover { background: rgba(255,255,255,0.15); }
+    .nav-item.active { background: rgba(255,255,255,0.25); border-left: 3px solid #4ade80; }
+
+    /* Progress bar */
+    .progress-bar { transition: width 0.6s ease; }
+
+    /* Checklist row selected */
+    .row-selected td { background: #f0fdf4 !important; }
+  </style>
+</head>
+<body class="bg-gray-50 font-sans min-h-screen">
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!--  APP SHELL                                                  -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div id="app" class="flex h-screen overflow-hidden">
+
+  <!-- ── SIDEBAR ─────────────────────────────────────────────── -->
+  <aside id="sidebar"
+    class="bg-hero w-64 flex-shrink-0 flex flex-col transition-all duration-300 overflow-y-auto z-40">
+
+    <!-- Logo -->
+    <div class="p-6 border-b border-white/10">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-xl">🌿</div>
+        <div>
+          <div class="text-white font-bold text-sm leading-tight">Essentia</div>
+          <div class="text-green-200 text-xs">Experience</div>
+        </div>
+      </div>
+      <div class="mt-3 text-xs text-green-300 bg-white/10 rounded-lg px-3 py-1.5">
+        Cardápio Digital 2026
+      </div>
+    </div>
+
+    <!-- Nav -->
+    <nav class="flex-1 p-4 space-y-1">
+      <button onclick="showSection('dashboard')"
+        class="nav-item active w-full text-left flex items-center gap-3 px-4 py-3 text-white text-sm"
+        data-section="dashboard">
+        <span class="text-lg">🏠</span> Dashboard
+      </button>
+      <button onclick="showSection('recipes')"
+        class="nav-item w-full text-left flex items-center gap-3 px-4 py-3 text-white/80 text-sm"
+        data-section="recipes">
+        <span class="text-lg">🥤</span> Receitas
+      </button>
+      <button onclick="showSection('template')"
+        class="nav-item w-full text-left flex items-center gap-3 px-4 py-3 text-white/80 text-sm"
+        data-section="template">
+        <span class="text-lg">📝</span> Template de Receita
+      </button>
+      <button onclick="showSection('category')"
+        class="nav-item w-full text-left flex items-center gap-3 px-4 py-3 text-white/80 text-sm"
+        data-section="category">
+        <span class="text-lg">📚</span> Texto Conceitual
+      </button>
+      <button onclick="showSection('checklist')"
+        class="nav-item w-full text-left flex items-center gap-3 px-4 py-3 text-white/80 text-sm"
+        data-section="checklist">
+        <span class="text-lg">✅</span> Checklist de Conteúdo
+      </button>
+      <button onclick="showSection('adaptation')"
+        class="nav-item w-full text-left flex items-center gap-3 px-4 py-3 text-white/80 text-sm"
+        data-section="adaptation">
+        <span class="text-lg">🔧</span> Adaptação de Receitas
+      </button>
+      <button onclick="showSection('aitools')"
+        class="nav-item w-full text-left flex items-center gap-3 px-4 py-3 text-white/80 text-sm"
+        data-section="aitools">
+        <span class="text-lg">🤖</span> Ferramentas de IA
+      </button>
+    </nav>
+
+    <!-- Footer -->
+    <div class="p-4 border-t border-white/10 text-xs text-green-300 text-center">
+      v1.0 · Equipe Essentia
+    </div>
+  </aside>
+
+  <!-- ── MAIN CONTENT ─────────────────────────────────────────── -->
+  <main class="flex-1 flex flex-col overflow-hidden">
+
+    <!-- Top Bar -->
+    <header class="bg-white border-b border-gray-100 px-6 py-4 flex items-center justify-between flex-shrink-0 shadow-sm">
+      <div>
+        <h1 id="pageTitle" class="text-xl font-bold text-gray-800">Dashboard</h1>
+        <p id="pageSubtitle" class="text-xs text-gray-500 mt-0.5">Visão geral do projeto</p>
+      </div>
+      <div class="flex items-center gap-3">
+        <div class="relative">
+          <input id="globalSearch" type="text" placeholder="Buscar receitas..."
+            class="pl-9 pr-4 py-2 text-sm border border-gray-200 rounded-xl bg-gray-50 w-56 transition-all"
+            oninput="globalSearchFn(this.value)" />
+          <span class="absolute left-3 top-2.5 text-gray-400 text-sm">🔍</span>
+        </div>
+        <div class="w-9 h-9 rounded-xl bg-essentia-100 flex items-center justify-center text-essentia-700 font-bold text-sm cursor-pointer">
+          EX
+        </div>
+      </div>
+    </header>
+
+    <!-- Content Area -->
+    <div class="flex-1 overflow-y-auto p-6">
+
+      <!-- ══════════════ DASHBOARD ══════════════ -->
+      <section id="sec-dashboard" class="fade-in">
+        <!-- Stats Grid -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <div class="glass rounded-2xl p-5 border-l-4 border-essentia-500">
+            <div class="text-3xl font-bold text-essentia-700">24</div>
+            <div class="text-sm text-gray-600 mt-1">Total de Receitas</div>
+            <div class="text-xs text-essentia-600 mt-1">↑ 4 este mês</div>
+          </div>
+          <div class="glass rounded-2xl p-5 border-l-4 border-blue-500">
+            <div class="text-3xl font-bold text-blue-700">8</div>
+            <div class="text-sm text-gray-600 mt-1">Publicadas</div>
+            <div class="text-xs text-blue-600 mt-1">33% do total</div>
+          </div>
+          <div class="glass rounded-2xl p-5 border-l-4 border-amber-500">
+            <div class="text-3xl font-bold text-amber-700">11</div>
+            <div class="text-sm text-gray-600 mt-1">Em Produção</div>
+            <div class="text-xs text-amber-600 mt-1">46% do total</div>
+          </div>
+          <div class="glass rounded-2xl p-5 border-l-4 border-purple-500">
+            <div class="text-3xl font-bold text-purple-700">5</div>
+            <div class="text-sm text-gray-600 mt-1">Pendentes</div>
+            <div class="text-xs text
