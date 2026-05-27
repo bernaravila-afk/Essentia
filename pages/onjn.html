@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Essentia Experience — Cardápio Digital</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            essentia: {
+              gold:    '#C9A84C',
+              dark:    '#1A1A1A',
+              cream:   '#F5F0E8',
+              sage:    '#7A9E7E',
+              blush:   '#D4A5A5',
+              teal:    '#4A8FA8',
+              charcoal:'#2D2D2D',
+              muted:   '#6B6B6B',
+            }
+          },
+          fontFamily: {
+            serif: ['Playfair Display', 'serif'],
+            sans:  ['Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: #F5F0E8; }
+    .font-serif { font-family: 'Playfair Display', serif; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #F5F0E8; }
+    ::-webkit-scrollbar-thumb { background: #C9A84C; border-radius: 3px; }
+
+    /* Transitions */
+    .page { display: none; animation: fadeIn .35s ease; }
+    .page.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Card hover */
+    .recipe-card { transition: transform .25s ease, box-shadow .25s ease; }
+    .recipe-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,.12); }
+
+    /* Tab active */
+    .tab-btn.active { background: #C9A84C; color: #fff; }
+    .tab-btn { transition: all .2s; }
+
+    /* Category pill active */
+    .cat-pill.active { background: #1A1A1A; color: #F5F0E8; }
+
+    /* Progress bar */
+    .progress-bar { transition: width 1s ease; }
+
+    /* Task status */
+    .status-pending   { background: #FEF3C7; color: #92400E; }
+    .status-progress  { background: #DBEAFE; color: #1E40AF; }
+    .status-done      { background: #D1FAE5; color: #065F46; }
+
+    /* Overlay */
+    #overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:40; backdrop-filter:blur(4px); }
+    #overlay.open { display:block; }
+
+    /* Modal */
+    #modal { display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:50; width:min(95vw, 680px); max-height:90vh; overflow-y:auto; }
+    #modal.open { display:block; animation: fadeIn .3s ease; }
+
+    /* Sticky header */
+    .sticky-header { position: sticky; top: 0; z-index: 30; backdrop-filter: blur(12px); background: rgba(245,240,232,.92); }
+
+    /* Bottom nav */
+    .bottom-nav-item.active svg { stroke: #C9A84C; }
+    .bottom-nav-item.active span { color: #C9A84C; }
+
+    /* Nutrient bar */
+    .nutrient-fill { height: 6px; border-radius: 3px; background: linear-gradient(90deg, #C9A84C, #7A9E7E); }
+
+    /* QR code visual */
+    .qr-grid { display: grid; grid-template-columns: repeat(10,1fr); gap: 2px; }
+    .qr-cell { aspect-ratio: 1; border-radius: 1px; }
+  </style>
+</head>
+<body class="min-h-screen">
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!--  APP SHELL                                              -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div id="app" class="max-w-md mx-auto min-h-screen flex flex-col relative shadow-2xl bg-essentia-cream">
+
+  <!-- TOP HEADER -->
+  <header class="sticky-header px-5 pt-5 pb-3 border-b border-essentia-gold/20">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <button id="btn-back" onclick="goBack()" class="hidden w-8 h-8 rounded-full bg-essentia-dark/8 flex items-center justify-center">
+          <svg class="w-4 h-4" fill="none" stroke="#1A1A1A" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+        </button>
+        <div>
+          <h1 id="header-title" class="font-serif text-xl font-semibold text-essentia-dark">Essentia Experience</h1>
+          <p id="header-sub" class="text-xs text-essentia-muted">Cardápio Digital 2026</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <button onclick="showPage('project')" class="w-9 h-9 rounded-full bg-essentia-gold/15 flex items-center justify-center" title="Painel do Projeto">
+          <svg class="w-4 h-4" fill="none" stroke="#C9A84C" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+        </button>
+        <button onclick="showPage('home')" class="w-9 h-9 rounded-full bg-essentia-dark/8 flex items-center justify-center">
+          <svg class="w-4 h-4" fill="none" stroke="#1A1A1A" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- PAGES CONTAINER -->
+  <main class="flex-1 overflow-y-auto pb-20">
+
+    <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ PAGE: HOME ━━ -->
+    <div id="page-home" class="page active px-5 pt-5">
+
+      <!-- Hero -->
+      <div class="relative rounded-2xl overflow-hidden mb-6 h-44 bg-gradient-to-br from-essentia-dark via-essentia-charcoal to-essentia-gold/80">
+        <div class="absolute inset-0 flex flex-col justify-end p-5">
+          <span class="text-essentia-gold text-xs font-medium tracking-widest uppercase mb-1">Bem-vindo</span>
+          <h2 class="font-serif text-white text-2xl font-bold leading-tight">Descubra nossas<br/>receitas exclusivas</h2>
+          <p class="text-white/60 text-xs mt-1">Bebidas artesanais para o seu lar</p>
+        </div>
+        <div class="absolute top-4 right-4 opacity-20">
+          <svg width="80" height="80" viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="38" stroke="#C9A84C" stroke-width="1.5"/><circle cx="40" cy="40" r="28" stroke="#C9A84C" stroke-width="1"/><circle cx="40" cy="40" r="18" stroke="#C9A84C" stroke-width=".5"/></svg>
+        </div>
+      </div>
+
+      <!-- Search -->
+      <div class="relative mb-5">
+        <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" fill="none" stroke="#6B6B6B" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input id="search-input" oninput="filterRecipes()" type="text" placeholder="Buscar receita ou ingrediente..."
+          class="w-full pl-9 pr-4 py-3 rounded-xl bg-white border border-essentia-gold/20 text-sm text-essentia-dark placeholder-essentia-muted focus:outline-none focus:border-essentia-gold focus:ring-2 focus:ring-essentia-gold/20" />
+      </div>
+
+      <!-- Categories -->
+      <div class="mb-5">
+        <h3 class="font-serif text-base font-semibold text-essentia-dark mb-3">Categorias</h3>
+        <div class="flex gap-2 overflow-x-auto pb-1 scrollbar-hide" id="cat-pills">
+          <!-- injected by JS -->
+        </div>
+      </div>
+
+      <!-- Recipe Grid -->
+      <div class="mb-4 flex items-center justify-between">
+        <h3 class="font-serif text-base font-semibold text-essentia-dark" id="list-title">Todas as Receitas</h3>
+        <span id="recipe-count" class="text-xs text-essentia-muted bg-essentia-gold/10 px-2 py-1 rounded-full"></span>
+      </div>
+      <div id="recipe-grid" class="grid grid-cols-2 gap-3 mb-4">
+        <!-- injected by JS -->
+      </div>
+      <div id="no-results" class="hidden text-center py-12 text-essentia-muted">
+        <svg class="w-12 h-12 mx-auto mb-3 opacity-30" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <p class="text-sm">Nenhuma receita encontrada</p>
+      </div>
+    </div>
+
+    <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ PAGE: DETAIL ━━ -->
+    <div id="page-detail" class="page px-5 pt-4">
+      <div id="detail-content"></div>
+    </div>
+
+    <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ PAGE: PROJECT ━━ -->
+    <div id="page-project" class="page px-5 pt-5">
+
+      <!-- Project header -->
+      <div class="bg-essentia-dark rounded-2xl p-5 mb-5 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-32 h-32 bg-essentia-gold/10 rounded-full -translate-y-8 translate-x-8"></div>
+        <span class="text-essentia-gold text-xs tracking-widest uppercase">Painel Interno</span>
+        <h2 class="font-serif text-white text-xl font-bold mt-1">APP Cardápio Digital</h2>
+        <p class="text-white/50 text-xs mt-1">Essentia Experience · Projeto 2026</p>
+        <div class="mt-4 flex gap-3">
+          <div class="bg-white/10 rounded-xl px-3 py-2 text-center">
+            <div class="text-essentia-gold font-bold text-lg" id="stat-total">0</div>
+            <div class="text-white/60 text-xs">Tarefas</div>
+          </div>
+          <div class="bg-white/10 rounded-xl px-3 py-2 text-center">
+            <div class="text-green-400 font-bold text-lg" id="stat-done">0</div>
+            <div class="text-white/60 text-xs">Concluídas</div>
+          </div>
+          <div class="bg-white/10 rounded-xl px-3 py-2 text-center">
+            <div class="text-blue-400 font-bold text-lg" id="stat-progress">0</div>
+            <div class="text-white/60 text-xs">Em Andamento</div>
+          </div>
+          <div class="bg-white/10 rounded-xl px-3 py-2 text-center">
+            <div class="text-yellow-400 font-bold text-lg" id="stat-pending">0</div>
+            <div class="text-white/60 text-xs">Pendentes</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Overall progress -->
+      <div class="bg-white rounded-2xl p-4 mb-5 border border-essentia-gold/15">
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-sm font-medium text-essentia-dark">Progresso Geral</span>
+          <span id="progress-pct" class="text-essentia-gold font-bold text-sm">0%</span>
+        </div>
+        <div class="h-2 bg-essentia-cream rounded-full overflow-hidden">
+          <div id="progress-
