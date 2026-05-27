@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta name="theme-color" content="#1a3a2a" />
+  <meta name="description" content="Cardápio Digital do Health Bar — receitas saudáveis para fazer em casa" />
+  <title>Health Bar · Cardápio Digital</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            forest:  { DEFAULT: '#1a3a2a', light: '#2d5a3d', dark: '#0f2219' },
+            sage:    { DEFAULT: '#7aab8a', light: '#a8c9b4', dark: '#4d8060' },
+            cream:   { DEFAULT: '#f5f0e8', warm: '#ede5d0' },
+            amber:   { DEFAULT: '#d4a853', light: '#e8c97a', dark: '#a07830' },
+            coral:   { DEFAULT: '#e07b54', light: '#f0a080' },
+          },
+          fontFamily: {
+            serif: ['Playfair Display', 'Georgia', 'serif'],
+            sans:  ['Inter', 'system-ui', 'sans-serif'],
+          },
+          animation: {
+            'fade-up':    'fadeUp 0.5s ease forwards',
+            'fade-in':    'fadeIn 0.4s ease forwards',
+            'slide-up':   'slideUp 0.45s cubic-bezier(0.16,1,0.3,1) forwards',
+            'pulse-soft': 'pulseSoft 2s ease-in-out infinite',
+            'spin-slow':  'spin 3s linear infinite',
+          },
+          keyframes: {
+            fadeUp:    { from: { opacity:0, transform:'translateY(24px)' }, to: { opacity:1, transform:'translateY(0)' } },
+            fadeIn:    { from: { opacity:0 }, to: { opacity:1 } },
+            slideUp:   { from: { opacity:0, transform:'translateY(100%)' }, to: { opacity:1, transform:'translateY(0)' } },
+            pulseSoft: { '0%,100%': { opacity:1 }, '50%': { opacity:.6 } },
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    /* ── Base ── */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f5f0e8;
+      color: #1a3a2a;
+      min-height: 100dvh;
+      overflow-x: hidden;
+    }
+
+    /* ── Splash ── */
+    #splash {
+      position: fixed; inset: 0; z-index: 9999;
+      background: linear-gradient(160deg, #1a3a2a 0%, #2d5a3d 60%, #4d8060 100%);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      transition: opacity .6s ease, visibility .6s ease;
+    }
+    #splash.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+    .leaf-icon {
+      width: 72px; height: 72px;
+      animation: leafBounce 1.2s ease-in-out infinite alternate;
+    }
+    @keyframes leafBounce {
+      from { transform: translateY(0) rotate(-5deg); }
+      to   { transform: translateY(-10px) rotate(5deg); }
+    }
+
+    /* ── App Shell ── */
+    #app { max-width: 430px; margin: 0 auto; min-height: 100dvh; position: relative; }
+
+    /* ── Header ── */
+    .app-header {
+      background: linear-gradient(135deg, #1a3a2a 0%, #2d5a3d 100%);
+      position: sticky; top: 0; z-index: 100;
+    }
+
+    /* ── Category Cards ── */
+    .cat-card {
+      position: relative; overflow: hidden;
+      border-radius: 20px; cursor: pointer;
+      transition: transform .25s ease, box-shadow .25s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .cat-card:active { transform: scale(.97); }
+    .cat-card::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(180deg, transparent 30%, rgba(0,0,0,.65) 100%);
+      z-index: 1;
+    }
+    .cat-card img { width:100%; height:100%; object-fit:cover; display:block; transition: transform .4s ease; }
+    .cat-card:hover img { transform: scale(1.05); }
+    .cat-card-content { position:absolute; bottom:0; left:0; right:0; z-index:2; padding:16px; }
+
+    /* ── Recipe Card ── */
+    .recipe-card {
+      background: #fff;
+      border-radius: 16px;
+      cursor: pointer;
+      transition: transform .2s ease, box-shadow .2s ease;
+      -webkit-tap-highlight-color: transparent;
+      overflow: hidden;
+    }
+    .recipe-card:active { transform: scale(.98); }
+
+    /* ── Modal ── */
+    #modal-overlay {
+      position: fixed; inset: 0; z-index: 500;
+      background: rgba(15,34,25,.6);
+      backdrop-filter: blur(4px);
+      display: flex; align-items: flex-end;
+      opacity: 0; visibility: hidden;
+      transition: opacity .35s ease, visibility .35s ease;
+    }
+    #modal-overlay.active { opacity: 1; visibility: visible; }
+    #modal-sheet {
+      width: 100%; max-width: 430px; margin: 0 auto;
+      background: #f5f0e8;
+      border-radius: 28px 28px 0 0;
+      max-height: 92dvh;
+      overflow-y: auto;
+      transform: translateY(100%);
+      transition: transform .45s cubic-bezier(0.16,1,0.3,1);
+    }
+    #modal-overlay.active #modal-sheet { transform: translateY(0); }
+
+    /* Scrollbar */
+    #modal-sheet::-webkit-scrollbar { width: 4px; }
+    #modal-sheet::-webkit-scrollbar-track { background: transparent; }
+    #modal-sheet::-webkit-scrollbar-thumb { background: #a8c9b4; border-radius: 2px; }
+
+    /* ── Step Badge ── */
+    .step-badge {
+      width: 28px; height: 28px; min-width: 28px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #7aab8a, #4d8060);
+      color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700;
+    }
+
+    /* ── Tip Card ── */
+    .tip-card {
+      background: linear-gradient(135deg, #ede5d0, #f5f0e8);
+      border-left: 4px solid #d4a853;
+      border-radius: 12px;
+      padding: 12px 14px;
+    }
+
+    /* ── YouTube Strip ── */
+    .yt-thumb {
+      flex: 0 0 auto;
+      width: 200px;
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+      transition: transform .2s ease;
+    }
+    .yt-thumb:active { transform: scale(.97); }
+    .yt-play-btn {
+      position: absolute; top:50%; left:50%;
+      transform: translate(-50%,-50%);
+      width: 44px; height: 44px;
+      background: rgba(255,255,255,.92);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* ── Share Toast ── */
+    #share-toast {
+      position: fixed; bottom: 24px; left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: #1a3a2a; color: #fff;
+      padding: 12px 24px; border-radius: 40px;
+      font-size: 14px; font-weight: 500;
+      z-index: 9000; white-space: nowrap;
+      transition: transform .4s cubic-bezier(0.16,1,0.3,1), opacity .4s ease;
+      opacity: 0;
+    }
+    #share-toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+    /* ── Nav Bottom ── */
+    .bottom-nav { background: #fff; border-top: 1px solid #e8e0d0; }
+    .nav-btn { -webkit-tap-highlight-color: transparent; transition: color .2s; }
+    .nav-btn.active { color: #2d5a3d; }
+
+    /* ── Scrollable horizontal ── */
+    .scroll-x { overflow-x: auto; scrollbar-width: none; }
+    .scroll-x::-webkit-scrollbar { display: none; }
+
+    /* ── Badge pill ── */
+    .badge { display:inline-block; padding:2px 10px; border-radius:40px; font-size:11px; font-weight:600; }
+
+    /* ── Gradient text ── */
+    .grad-text {
+      background: linear-gradient(135deg, #7aab8a, #d4a853);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+
+    /* ── Ripple ── */
+    .ripple { position:relative; overflow:hidden; }
+    .ripple-effect {
+      position:absolute; border-radius:50%;
+      background:rgba(255,255,255,.3);
+      transform:scale(0); animation:rippleAnim .6s linear;
+      pointer-events:none;
+    }
+    @keyframes rippleAnim { to { transform:scale(4); opacity:0; } }
+
+    /* ── Section transitions ── */
+    .section-page { display:none; }
+    .section-page.active { display:block; animation: fadeUp .4s ease forwards; }
+  </style>
+</head>
+
+<body>
+
+<!-- ════════════════════════════════════════
+     SPLASH SCREEN
+════════════════════════════════════════ -->
+<div id="splash">
+  <svg class="leaf-icon mb-4" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M36 8C20 8 10 22 10 38C10 52 22 64 36 64C50 64 62 52 62 38C62 22 52 8 36 8Z" fill="#7aab8a" opacity=".3"/>
+    <path d="M36 12C36 12 18 20 18 40C18 52 26 62 36 62C46 62 54 52 54 40C54 20 36 12 36 12Z" fill="#a8c9b4" opacity=".5"/>
+    <path d="M36 16C36 16 22 28 22 42C22 52 28 60 36 60C36 60 36 38 48 28C44 20 36 16 36 16Z" fill="#f5f0e8"/>
+    <line x1="36" y1="60" x2="36" y2="30" stroke="#7aab8a" stroke-width="2" stroke-linecap="round"/>
+    <line x1="36" y1="44" x2="28" y2="36" stroke="#7aab8a" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="36" y1="50" x2="42" y2="42" stroke="#7aab8a" stroke-width="1.5" stroke-linecap="round"/>
+  </svg>
+  <h1 class="text-white font-serif text-3xl font-bold tracking-wide">Health Bar</h1>
+  <p class="text-sage-light text-sm mt-1 tracking-widest uppercase opacity-80">Cardápio Digital</p>
+  <div class="mt-10 flex gap-1.5">
+    <div class="w-2 h-2 rounded-full bg-sage animate-pulse-soft" style="animation-delay:0s"></div>
+    <div class="w-2 h-2 rounded-full bg-sage animate-pulse-soft" style="animation-delay:.2s"></div>
+    <div class="w-2 h-2 rounded-full bg-sage animate-pulse-soft" style="animation-delay:.4s"></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     SHARE TOAST
+════════════════════════════════════════ -->
+<div id="share-toast">✓ Link copiado! Abrindo WhatsApp…</div>
+
+<!-- ════════════════════════════════════════
+     MODAL OVERLAY
+════════════════════════════════════════ -->
+<div id="modal-overlay" role="dialog" aria-modal="true" aria-label="Detalhes da receita">
+  <div id="modal-sheet">
+    <!-- Drag handle -->
+    <div class="flex justify-center pt-3 pb-1">
+      <div class="w-10 h-1 rounded-full bg-gray-300"></div>
+    </div>
+    <!-- Dynamic content injected by JS -->
+    <div id="modal-content
