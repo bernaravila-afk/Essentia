@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Health Bar – Cardápio Digital | Dashboard de Projeto</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50:  '#f0fdf4',
+              100: '#dcfce7',
+              200: '#bbf7d0',
+              300: '#86efac',
+              400: '#4ade80',
+              500: '#22c55e',
+              600: '#16a34a',
+              700: '#15803d',
+              800: '#166534',
+              900: '#14532d',
+            },
+            accent: {
+              50:  '#fefce8',
+              100: '#fef9c3',
+              200: '#fef08a',
+              300: '#fde047',
+              400: '#facc15',
+              500: '#eab308',
+            },
+            neutral: {
+              850: '#1e1e2e',
+              900: '#13131f',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+          animation: {
+            'fade-in': 'fadeIn 0.4s ease-out',
+            'slide-up': 'slideUp 0.3s ease-out',
+            'pulse-soft': 'pulseSoft 2s infinite',
+          },
+          keyframes: {
+            fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+            slideUp: { '0%': { opacity: '0', transform: 'translateY(16px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+            pulseSoft: { '0%,100%': { opacity: '1' }, '50%': { opacity: '0.6' } },
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root { scroll-behavior: smooth; }
+    body { background: #0f1117; }
+    .glass {
+      background: rgba(255,255,255,0.04);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .glass-light {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+    }
+    .nav-item.active { background: rgba(34,197,94,0.15); color: #4ade80; border-left: 3px solid #22c55e; }
+    .nav-item { border-left: 3px solid transparent; transition: all 0.2s; }
+    .nav-item:hover { background: rgba(255,255,255,0.05); color: #86efac; }
+    .section-panel { display: none; animation: fadeIn 0.35s ease-out; }
+    .section-panel.active { display: block; }
+    .tag { display: inline-flex; align-items: center; padding: 2px 10px; border-radius: 9999px; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.03em; }
+    .badge-pending { background: rgba(234,179,8,0.15); color: #fde047; border: 1px solid rgba(234,179,8,0.3); }
+    .badge-done { background: rgba(34,197,94,0.15); color: #4ade80; border: 1px solid rgba(34,197,94,0.3); }
+    .badge-no { background: rgba(239,68,68,0.12); color: #f87171; border: 1px solid rgba(239,68,68,0.25); }
+    .badge-concept { background: rgba(139,92,246,0.15); color: #c4b5fd; border: 1px solid rgba(139,92,246,0.3); }
+    .table-row:hover { background: rgba(255,255,255,0.04); }
+    .copy-btn { transition: all 0.2s; }
+    .copy-btn:hover { background: rgba(34,197,94,0.2); }
+    .copy-btn.copied { background: rgba(34,197,94,0.3); color: #4ade80; }
+    .progress-bar { height: 6px; border-radius: 3px; background: rgba(255,255,255,0.08); overflow: hidden; }
+    .progress-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #22c55e, #4ade80); transition: width 0.8s ease; }
+    .card-hover { transition: transform 0.2s, box-shadow 0.2s; }
+    .card-hover:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+    .sidebar-scroll { overflow-y: auto; scrollbar-width: thin; scrollbar-color: rgba(34,197,94,0.3) transparent; }
+    .content-scroll { overflow-y: auto; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.1) transparent; }
+    pre { white-space: pre-wrap; word-break: break-word; }
+    @media (max-width: 768px) {
+      .sidebar { transform: translateX(-100%); transition: transform 0.3s; position: fixed; z-index: 50; height: 100vh; }
+      .sidebar.open { transform: translateX(0); }
+    }
+  </style>
+</head>
+<body class="text-gray-100 font-sans min-h-screen">
+
+<!-- TOP BAR -->
+<header class="fixed top-0 left-0 right-0 z-40 glass border-b border-white/[0.07] px-4 py-3 flex items-center justify-between">
+  <div class="flex items-center gap-3">
+    <button id="mobileMenuBtn" class="md:hidden p-2 rounded-lg hover:bg-white/10 transition">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+    </button>
+    <div class="flex items-center gap-2">
+      <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center shadow-lg">
+        <span class="text-white text-sm font-bold">HB</span>
+      </div>
+      <div>
+        <h1 class="text-sm font-700 text-white leading-tight">Health Bar</h1>
+        <p class="text-xs text-gray-400 leading-tight">Cardápio Digital – Dashboard</p>
+      </div>
+    </div>
+  </div>
+  <div class="flex items-center gap-2">
+    <span class="tag badge-pending hidden sm:inline-flex">🗓 Reunião: Mai/2026</span>
+    <div class="w-2 h-2 rounded-full bg-brand-400 animate-pulse-soft"></div>
+    <span class="text-xs text-gray-400">6 seções ativas</span>
+  </div>
+</header>
+
+<div class="flex pt-14 h-screen">
+
+  <!-- SIDEBAR -->
+  <aside id="sidebar" class="sidebar w-64 flex-shrink-0 glass border-r border-white/[0.07] sidebar-scroll md:relative md:translate-x-0 bg-neutral-900/80">
+    <div class="p-4">
+      <p class="text-xs font-600 text-gray-500 uppercase tracking-widest mb-3">Responsáveis</p>
+      <nav class="space-y-1" id="mainNav">
+        <button onclick="showSection('emiliana')" class="nav-item w-full text-left px-3 py-2.5 rounded-lg text-sm text-gray-300 flex items-center gap-2.5 active">
+          <span class="w-7 h-7 rounded-full bg-pink-500/20 text-pink-300 flex items-center justify-center text-xs font-bold">EM</span>
+          <div>
+            <div class="font-500">Emiliana (Amy)</div>
+            <div class="text-xs text-gray-500">Checklist de Conteúdo</div>
+          </div>
+        </button>
+        <button onclick="showSection('sabrina')" class="nav-item w-full text-left px-3 py-2.5 rounded-lg text-sm text-gray-300 flex items-center gap-2.5">
+          <span class="w-7 h-7 rounded-full bg-blue-500/20 text-blue-300 flex items-center justify-center text-xs font-bold">SF</span>
+          <div>
+            <div class="font-500">Sabrina Faccio</div>
+            <div class="text-xs text-gray-500">Receitas Adaptadas</div>
+          </div>
+        </button>
+        <button onclick="showSection('bernardo')" class="nav-item w-full text-left px-3 py-2.5 rounded-lg text-sm text-gray-300 flex items-center gap-2.5">
+          <span class="w-7 h-7 rounded-full bg-purple-500/20 text-purple-300 flex items-center justify-center text-xs font-bold">BE</span>
+          <div>
+            <div class="font-500">Bernardo</div>
+            <div class="text-xs text-gray-500">Protótipo Figma</div>
+          </div>
+        </button>
+        <button onclick="showSection('marketing')" class="nav-item w-full text-left px-3 py-2.5 rounded-lg text-sm text-gray-300 flex items-center gap-2.5">
+          <span class="w-7 h-7 rounded-full bg-yellow-500/20 text-yellow-300 flex items-center justify-center text-xs font-bold">MK</span>
+          <div>
+            <div class="font-500">Marketing</div>
+            <div class="text-xs text-gray-500">QR Code & IA Fotos</div>
+          </div>
+        </button>
+        <button onclick="showSection('evelyn')" class="nav-item w-full text-left px-3 py-2.5 rounded-lg text-sm text-gray-300 flex items-center gap-2.5">
+          <span class="w-7 h-7 rounded-full bg-teal-500/20 text-teal-300 flex items-center justify-center text-xs font-bold">EV</span>
+          <div>
+            <div class="font-500">Evelyn</div>
+            <div class="text-xs text-gray-500">Acesso ao Drive</div>
+          </div>
+        </button>
+        <button onclick="showSection('pendencias')" class="nav-item w-full text-left px-3 py-2.5 rounded-lg text-sm text-gray-300 flex items-center gap-2.5">
+          <span class="w-7 h-7 rounded-full bg-orange-500/20 text-orange-300 flex items-center justify-center text-xs font-bold">⚡</span>
+          <div>
+            <div class="font-500">Pendências</div>
+            <div class="text-xs text-gray-500">Ações Não Concluídas</div>
+          </div>
+        </button>
+      </nav>
+
+      <div class="mt-6 pt-4 border-t border-white/[0.07]">
+        <p class="text-xs font-600 text-gray-500 uppercase tracking-widest mb-3">Progresso Geral</p>
+        <div class="space-y-2">
+          <div class="flex justify-between text-xs text-gray-400 mb-1"><span>Tarefas mapeadas</span><span class="text-brand-400">6/6</span></div>
+          <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+          <div class="flex justify-between text-xs text-gray-400 mb-1 mt-2"><span>Entregas definidas</span><span class="text-accent-400">4/6</span></div>
+          <div class="progress-bar"><div class="progress-fill" style="width:67%; background: linear-gradient(90deg,#eab308,#facc15);"></div></div>
+        </div>
+      </div>
+
+      <div class="mt-6 glass-light rounded-xl p-3">
+        <p class="text-xs font-600 text-brand-300 mb-2">📅 Próximos Prazos</p>
+</html>
