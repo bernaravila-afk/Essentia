@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Essentia Experience — Cardápio Digital</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            essentia: {
+              cream:    '#FAF7F2',
+              sand:     '#E8DDD0',
+              moss:     '#6B7C5C',
+              sage:     '#8FA67A',
+              terracotta: '#C4714A',
+              blush:    '#D4917A',
+              gold:     '#C9A84C',
+              charcoal: '#2D2D2D',
+              muted:    '#7A7A7A',
+            }
+          },
+          fontFamily: {
+            display: ['Playfair Display', 'serif'],
+            body:    ['Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background-color: #FAF7F2; }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #FAF7F2; }
+    ::-webkit-scrollbar-thumb { background: #C9A84C; border-radius: 3px; }
+
+    /* ── Smooth transitions ── */
+    .card-hover {
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .card-hover:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+    }
+
+    /* ── Category pill active ── */
+    .cat-pill { transition: all 0.2s ease; cursor: pointer; }
+    .cat-pill.active { box-shadow: 0 4px 14px rgba(0,0,0,0.18); }
+
+    /* ── Modal backdrop ── */
+    #modal-backdrop {
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+
+    /* ── Modal slide-in ── */
+    #modal-panel {
+      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1),
+                  opacity  0.3s ease;
+    }
+    #modal-panel.hidden-state {
+      transform: translateY(40px);
+      opacity: 0;
+    }
+
+    /* ── Nutrition table stripes ── */
+    .nutr-row:nth-child(odd) { background: rgba(232,221,208,0.35); }
+
+    /* ── Step bubble ── */
+    .step-bubble {
+      min-width: 2rem;
+      min-height: 2rem;
+    }
+
+    /* ── Search input focus ring ── */
+    #search-input:focus { outline: none; box-shadow: 0 0 0 3px rgba(201,168,76,0.35); }
+
+    /* ── Hero gradient overlay ── */
+    .hero-overlay {
+      background: linear-gradient(to bottom, rgba(45,45,45,0.05) 0%, rgba(45,45,45,0.55) 100%);
+    }
+
+    /* ── Loader ── */
+    .loader-dot {
+      animation: bounce 0.8s infinite alternate;
+    }
+    .loader-dot:nth-child(2) { animation-delay: 0.2s; }
+    .loader-dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes bounce {
+      from { transform: translateY(0); opacity: 0.4; }
+      to   { transform: translateY(-8px); opacity: 1; }
+    }
+
+    /* ── Fade-in for cards ── */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in-up {
+      animation: fadeInUp 0.4s ease forwards;
+    }
+
+    /* ── Tab underline ── */
+    .tab-btn { transition: all 0.2s ease; }
+    .tab-btn.active-tab {
+      border-bottom: 2px solid #C9A84C;
+      color: #2D2D2D;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen bg-essentia-cream text-essentia-charcoal">
+
+  <!-- ═══════════════════════════════════════════
+       LOADER SCREEN
+  ═══════════════════════════════════════════ -->
+  <div id="loader" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-essentia-cream">
+    <div class="mb-6">
+      <span class="font-display text-3xl font-bold text-essentia-moss tracking-wide">Essentia</span>
+      <span class="font-display text-3xl font-light text-essentia-gold ml-1">Experience</span>
+    </div>
+    <div class="flex gap-2">
+      <div class="loader-dot w-2.5 h-2.5 rounded-full bg-essentia-gold"></div>
+      <div class="loader-dot w-2.5 h-2.5 rounded-full bg-essentia-gold"></div>
+      <div class="loader-dot w-2.5 h-2.5 rounded-full bg-essentia-gold"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       MAIN APP WRAPPER
+  ═══════════════════════════════════════════ -->
+  <div id="app" class="opacity-0 transition-opacity duration-500">
+
+    <!-- ── TOP NAVIGATION BAR ── -->
+    <header class="sticky top-0 z-40 bg-essentia-cream/95 backdrop-blur-md border-b border-essentia-sand shadow-sm">
+      <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
+
+        <!-- Logo -->
+        <div class="flex items-center gap-2 shrink-0">
+          <div class="w-8 h-8 rounded-full bg-essentia-moss flex items-center justify-center">
+            <i class="fa-solid fa-leaf text-white text-xs"></i>
+          </div>
+          <div class="leading-tight">
+            <p class="font-display font-bold text-essentia-moss text-base leading-none">Essentia</p>
+            <p class="text-[10px] text-essentia-muted tracking-widest uppercase">Experience</p>
+          </div>
+        </div>
+
+        <!-- Search -->
+        <div class="flex-1 max-w-sm relative">
+          <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-essentia-muted text-sm"></i>
+          <input
+            id="search-input"
+            type="text"
+            placeholder="Buscar receita..."
+            class="w-full pl-9 pr-4 py-2 rounded-full bg-essentia-sand/70 border border-essentia-sand text-sm text-essentia-charcoal placeholder-essentia-muted transition-all duration-200"
+          />
+        </div>
+
+        <!-- Cart / Favourites counter -->
+        <button
+          id="fav-btn"
+          class="relative w-9 h-9 rounded-full bg-essentia-sand flex items-center justify-center hover:bg-essentia-blush/30 transition-colors"
+          title="Favoritos"
+        >
+          <i class="fa-regular fa-heart text-essentia-terracotta text-sm"></i>
+          <span id="fav-count" class="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-essentia-terracotta text-white text-[9px] flex items-center justify-center font-semibold hidden">0</span>
+        </button>
+
+      </div>
+    </header>
+
+    <!-- ── HERO BANNER ── -->
+    <section class="relative overflow-hidden bg-essentia-moss">
+      <!-- Decorative circles -->
+      <div class="absolute -top-10 -right-10 w-48 h-48 rounded-full bg-essentia-sage/30"></div>
+      <div class="absolute -bottom-6 -left-6 w-32 h-32 rounded-full bg-essentia-gold/20"></div>
+
+      <div class="relative max-w-5xl mx-auto px-6 py-10 md:py-14 flex flex-col md:flex-row items-center gap-6">
+        <div class="flex-1 text-white">
+          <p class="text-xs uppercase tracking-widest text-essentia-gold font-semibold mb-2">Cardápio Digital 2026</p>
+          <h1 class="font-display text-3xl md:text-4xl font-bold leading-tight mb-3">
+            Receitas saudáveis<br/>para replicar em casa
+          </h1>
+          <p class="text-white/75 text-sm md:text-base max-w-md">
+            Explore nossas bebidas e preparos exclusivos com ingredientes naturais, instruções claras e tabelas nutricionais completas.
+          </p>
+          <div class="mt-5 flex gap-3 flex-wrap">
+            <div class="flex items-center gap-1.5 bg-white/10 rounded-full px-3 py-1.5 text-xs text-white/90">
+              <i class="fa-solid fa-bowl-food text-essentia-gold"></i>
+              <span id="total-count">0 receitas</span>
+            </div>
+            <div class="flex items-center gap-1.5 bg-white/10 rounded-full px-3 py-1.5 text-xs text-white/90">
+              <i class="fa-solid fa-seedling text-essentia-gold"></i>
+              <span>100% naturais</span>
+            </div>
+            <div class="flex items-center gap-1.5 bg-white/10 rounded-full px-3 py-1.5 text-xs text-white/90">
+              <i class="fa-solid fa-house text-essentia-gold"></i>
+              <span>Fácil em casa</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Decorative image placeholder -->
+        <div class="w-36 h-36 md:w-48 md:h-48 rounded-full bg-white/10 border-2 border-white/20 flex flex-col items-center justify-center shrink-0">
+          <i class="fa-solid fa-blender text-4xl text-essentia-gold mb-1"></i>
+          <span class="text-white/70 text-xs">Essentia</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── MAIN CONTENT ── -->
+    <main class="max-w-5xl mx-auto px-4 pb-20">
+
+      <!-- Category Pills -->
+      <div class="sticky top-[61px] z-30 bg-essentia-cream/95 backdrop-blur-md py-4">
+        <div id="category-pills" class="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+          <!-- Injected by JS -->
+        </div>
+      </div>
+
+      <!-- Active Category Title -->
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h2 id="section-title" class="font-display text-xl font-semibold text-essentia-charcoal"></h2>
+          <p id="section-subtitle" class="text-sm text-essentia-muted mt-0.5"></p>
+        </div>
+        <!-- View toggle -->
+        <div class="flex gap-1 bg-essentia-sand rounded-lg p-1">
+          <button id="view-grid" class="w-8 h-7 rounded flex items-center justify-center bg-white shadow-sm text-essentia-moss" title="Grade">
+            <i class="fa-solid fa-grip text-xs"></i>
+          </button>
+          <button id="view-list" class="w-8 h-7 rounded flex items-center justify-center text-essentia-muted hover:text-essentia-moss transition-colors" title="Lista">
+            <i class="fa-solid fa-list text-xs"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Recipe Grid -->
+      <div id="recipe-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <!-- Injected by JS -->
+      </div>
+
+      <!-- Empty State -->
+      <div id="empty-state" class="hidden flex flex-col items-center justify-center py-20 text-center">
+        <i class="fa-solid fa-magnifying-glass text-4xl text-essentia-sand mb-4"></i>
+        <p class="font-display text-lg text-essentia-muted">Nenhuma receita encontrada</p>
+        <p class="text-sm text-essentia-muted mt-1">Tente outro termo ou categoria</p>
+      </div>
+
+    </main>
+
+  </div><!-- /app -->
+
+
+  <!-- ═══════════════════════════════════════════
+       RECIPE DETAIL MODAL
+  ═══════════════════════════════════════════ -->
+  <div id="modal-backdrop" class="fixed inset-0 z-50 bg-black/50 hidden flex items-end md:items-center justify-center p-0 md:p-4">
+    <div id="modal-panel" class="hidden-state bg-essentia-cream w-full md:max-w-2xl max-h-[95vh] md:max-h-[90vh] rounded-t-3xl md:rounded-2xl overflow-hidden flex flex-col shadow-2xl">
+
+      <!-- Modal Header (image) -->
+      <div id="modal-hero" class="relative h-52 md:h-64 shrink-0 bg-essentia-sand overflow-hidden">
+        <div id="modal-hero-img" class="w-full
