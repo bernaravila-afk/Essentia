@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#2D5016" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="description" content="Cardápio Digital do Health Bar - Receitas saudáveis e nutritivas" />
+  
+  <!-- Open Graph for WhatsApp sharing -->
+  <meta property="og:title" content="Health Bar - Cardápio Digital" />
+  <meta property="og:description" content="Descubra receitas saudáveis e nutritivas do Health Bar" />
+  <meta property="og:image" content="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=1200" />
+  <meta property="og:type" content="website" />
+  
+  <title>Health Bar - Cardápio Digital</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'hb-green': { 50:'#f0f7e6', 100:'#dff0c4', 200:'#c0e08a', 300:'#9ccf50', 400:'#7dbd1f', 500:'#5e9a0f', 600:'#4a7a0c', 700:'#3a5e0a', 800:'#2D5016', 900:'#1e3510' },
+            'hb-gold':  { 50:'#fdf8ec', 100:'#faefd0', 200:'#f4dca0', 300:'#eec46a', 400:'#e8ac3a', 500:'#d4941e', 600:'#b07816', 700:'#8c5c10', 800:'#6a420c', 900:'#4a2e08' },
+            'hb-earth': { 50:'#faf5f0', 100:'#f2e8dc', 200:'#e4cdb8', 300:'#d4ad8e', 400:'#c48d64', 500:'#b4713e', 600:'#9a5a2e', 700:'#7e4422', 800:'#623218', 900:'#482310' },
+            'hb-cream': '#fdfaf4',
+            'hb-dark':  '#1a1a1a',
+          },
+          fontFamily: {
+            'display': ['Georgia', 'serif'],
+            'body': ['system-ui', 'sans-serif'],
+          },
+          animation: {
+            'fade-in': 'fadeIn 0.4s ease-out',
+            'slide-up': 'slideUp 0.4s ease-out',
+            'shimmer': 'shimmer 1.5s infinite',
+          },
+          keyframes: {
+            fadeIn:   { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+            slideUp:  { '0%': { opacity: '0', transform: 'translateY(20px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+            shimmer:  { '0%': { backgroundPosition: '-200% 0' }, '100%': { backgroundPosition: '200% 0' } },
+          }
+        }
+      }
+    }
+  </script>
+  
+  <style>
+    * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
+    html, body { height: 100%; overflow: hidden; }
+    
+    #app { height: 100dvh; display: flex; flex-direction: column; background: #fdfaf4; font-family: system-ui, sans-serif; }
+    
+    .screen { display: none; flex: 1; flex-direction: column; overflow: hidden; animation: fadeIn 0.35s ease-out; }
+    .screen.active { display: flex; }
+    
+    /* Scrollable content area */
+    .scroll-area { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; scroll-behavior: smooth; }
+    .scroll-area::-webkit-scrollbar { width: 4px; }
+    .scroll-area::-webkit-scrollbar-track { background: transparent; }
+    .scroll-area::-webkit-scrollbar-thumb { background: #c0e08a; border-radius: 2px; }
+    
+    /* Skeleton loading */
+    .skeleton { background: linear-gradient(90deg, #e8e8e8 25%, #f5f5f5 50%, #e8e8e8 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 8px; }
+    
+    /* Category pill active state */
+    .cat-pill.active { background: var(--cat-color, #2D5016); color: white; }
+    
+    /* Recipe card hover */
+    .recipe-card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+    .recipe-card:active { transform: scale(0.97); }
+    
+    /* Bottom nav */
+    .bottom-nav { background: rgba(253,250,244,0.95); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-top: 1px solid rgba(0,0,0,0.08); }
+    
+    /* Nutrition table */
+    .nutrition-row:nth-child(even) { background: rgba(45,80,22,0.04); }
+    
+    /* Video embed */
+    .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; }
+    .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+    
+    /* Smooth page transitions */
+    .screen { transition: opacity 0.25s ease; }
+    
+    /* Badge */
+    .badge { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 600; letter-spacing: 0.03em; }
+    
+    /* Floating share button */
+    .fab { box-shadow: 0 4px 20px rgba(0,0,0,0.18); transition: transform 0.2s, box-shadow 0.2s; }
+    .fab:active { transform: scale(0.93); box-shadow: 0 2px 10px rgba(0,0,0,0.12); }
+    
+    /* Hero gradient overlay */
+    .hero-overlay { background: linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.45) 100%); }
+    
+    /* Splash animation */
+    @keyframes logoReveal { 0%{opacity:0;transform:scale(0.85)} 100%{opacity:1;transform:scale(1)} }
+    .logo-reveal { animation: logoReveal 0.6s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+    
+    /* Toast notification */
+    #toast { transition: all 0.3s ease; transform: translateY(100px); opacity: 0; }
+    #toast.show { transform: translateY(0); opacity: 1; }
+    
+    /* Tab indicator */
+    .tab-indicator { transition: transform 0.3s cubic-bezier(0.4,0,0.2,1), width 0.3s ease; }
+    
+    /* Collapsible section */
+    .collapsible-content { overflow: hidden; transition: max-height 0.35s ease; }
+    
+    /* Progress bar for nutrition */
+    .nutrition-bar { height: 4px; border-radius: 2px; background: #e8e8e8; overflow: hidden; }
+    .nutrition-bar-fill { height: 100%; border-radius: 2px; transition: width 0.8s ease; }
+    
+    @media (min-width: 768px) {
+      #app { max-width: 480px; margin: 0 auto; box-shadow: 0 0 60px rgba(0,0,0,0.12); }
+      html, body { background: #f0f0f0; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ============================================================ -->
+  <!-- SPLASH SCREEN                                                  -->
+  <!-- ============================================================ -->
+  <div id="screen-splash" class="screen active" style="background: linear-gradient(160deg, #2D5016 0%, #3a5e0a 50%, #4a7a0c 100%);">
+    <div class="flex flex-col items-center justify-center h-full gap-6 p-8">
+      <div class="logo-reveal text-center">
+        <div class="w-24 h-24 rounded-full bg-white/15 flex items-center justify-center mx-auto mb-4 backdrop-blur-sm border border-white/20">
+          <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+            <path d="M26 6C15 6 6 15 6 26s9 20 20 20 20-9 20-20S37 6 26 6z" fill="rgba(255,255,255,0.15)"/>
+            <path d="M18 32c0-8 4-14 8-18 4 4 8 10 8 18" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M14 28c3-4 7-6 12-6s9 2 12 6" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
+            <circle cx="26" cy="22" r="3" fill="white" opacity="0.9"/>
+          </svg>
+        </div>
+        <h1 class="text-4xl font-display text-white font-bold tracking-wide">Health Bar</h1>
+        <p class="text-white/70 mt-1 text-sm tracking-widest uppercase">Cardápio Digital</p>
+      </div>
+      <div class="mt-8 flex flex-col items-center gap-3">
+        <div class="flex gap-1">
+          <div class="w-2 h-2 rounded-full bg-white/40 animate-bounce" style="animation-delay:0s"></div>
+          <div class="w-2 h-2 rounded-full bg-white/40 animate-bounce" style="animation-delay:0.15s"></div>
+          <div class="w-2 h-2 rounded-full bg-white/40 animate-bounce" style="animation-delay:0.30s"></div>
+        </div>
+        <p class="text-white/50 text-xs">Carregando receitas...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- HOME SCREEN                                                    -->
+  <!-- ============================================================ -->
+  <div id="screen-home" class="screen">
+    <!-- Header -->
+    <div style="background: linear-gradient(160deg, #2D5016 0%, #4a7a0c 100%);" class="px-5 pt-12 pb-6 flex-shrink-0">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <p class="text-white/60 text-xs tracking-widest uppercase mb-1">Bem-vindo ao</p>
+          <h1 class="text-white text-2xl font-display font-bold">Health Bar</h1>
+        </div>
+        <div class="w-10 h-10 rounded-full bg-white/15 flex items-center justify-center border border-white/20">
+          <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2">
+            <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+      <!-- Search bar -->
+      <div class="relative">
+        <input id="search-input" type="text" placeholder="Buscar receita ou ingrediente..."
+          class="w-full bg-white/15 text-white placeholder-white/50 rounded-xl px-4 py-3 text-sm border border-white/20 focus:outline-none focus:border-white/50 backdrop-blur-sm"
+          oninput="handleSearch(this.value)" />
+        <svg class="absolute right-3 top-3.5 opacity-50" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2">
+          <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="scroll-area">
+      <!-- Hero banner -->
+      <div class="mx-4 mt-4 rounded-2xl overflow-hidden relative h-44 cursor-pointer" onclick="navigateToCategory('all')">
+        <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=800&q=80" alt="Receitas Saudáveis" class="w-full h-full object-cover" loading="lazy" />
+        <div class="hero-overlay absolute inset-0 flex flex-col justify-end p-4">
+          <span class="badge bg-hb-gold-400 text-white mb-2">✨ Novidades</span>
+          <h2 class="text-white text-xl font-display font-bold leading-tight">Receitas Saudáveis<br/>para o seu dia</h2>
+          <p class="text-white/80 text-xs mt-1">Explore nosso cardápio completo →</p>
+        </div>
+      </div>
+
+      <!-- Categories section -->
+      <div class="px-4 mt-6">
+        <div class="flex items-center justify-between mb-3">
+          <h2 class="text-hb-dark text-lg font-display font-semibold">Categorias</h2>
+          <span class="text-hb-green-600 text-sm font-medium cursor-pointer" onclick="navigateToCategory('all')">Ver todas →</span>
+        </div>
+        <div id="categories-grid" class="grid grid-cols-2 gap-3"></div>
+      </div>
+
+      <!-- Featured recipes -->
+      <div class="px-4 mt-6 mb-4">
+        <div class="flex items-center justify-between mb-3">
+          <h2 class="text-
+</html>
