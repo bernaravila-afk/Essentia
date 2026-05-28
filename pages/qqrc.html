@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistema Completo - Agentes 1 e 2</title>
+</head>
+<body style="margin:0;padding:0;font-family:'Segoe UI',Arial,sans-serif;background:#0f0f1a;color:#e0e0e0;min-height:100vh;">
+
+<!-- ========== CÓDIGO DO AGENTE 1 - PRESERVADO INTEGRALMENTE ========== -->
+
+<!-- ETAPA 1: HEADER / NAVEGAÇÃO -->
+<header style="background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);padding:0;position:sticky;top:0;z-index:1000;box-shadow:0 2px 20px rgba(0,100,255,0.3);">
+  <nav style="display:flex;align-items:center;justify-content:space-between;padding:0 20px;max-width:1400px;margin:0 auto;height:64px;flex-wrap:wrap;gap:10px;">
+    
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div style="width:40px;height:40px;background:linear-gradient(135deg,#00d4ff,#0080ff);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 0 15px rgba(0,212,255,0.5);">⚡</div>
+      <span style="font-size:1.4rem;font-weight:700;background:linear-gradient(135deg,#00d4ff,#ffffff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">NexusApp</span>
+    </div>
+
+    <div id="navLinks" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+      <a href="#dashboard" onclick="navegarPara('dashboard')" style="color:#a0b4c8;text-decoration:none;padding:8px 16px;border-radius:8px;font-size:0.9rem;transition:all 0.3s;cursor:pointer;" onmouseover="this.style.background='rgba(0,212,255,0.15)';this.style.color='#00d4ff'" onmouseout="this.style.background='transparent';this.style.color='#a0b4c8'">Dashboard</a>
+      <a href="#projetos" onclick="navegarPara('projetos')" style="color:#a0b4c8;text-decoration:none;padding:8px 16px;border-radius:8px;font-size:0.9rem;cursor:pointer;" onmouseover="this.style.background='rgba(0,212,255,0.15)';this.style.color='#00d4ff'" onmouseout="this.style.background='transparent';this.style.color='#a0b4c8'">Projetos</a>
+      <a href="#tarefas" onclick="navegarPara('tarefas')" style="color:#a0b4c8;text-decoration:none;padding:8px 16px;border-radius:8px;font-size:0.9rem;cursor:pointer;" onmouseover="this.style.background='rgba(0,212,255,0.15)';this.style.color='#00d4ff'" onmouseout="this.style.background='transparent';this.style.color='#a0b4c8'">Tarefas</a>
+      <a href="#relatorios" onclick="navegarPara('relatorios')" style="color:#a0b4c8;text-decoration:none;padding:8px 16px;border-radius:8px;font-size:0.9rem;cursor:pointer;" onmouseover="this.style.background='rgba(0,212,255,0.15)';this.style.color='#00d4ff'" onmouseout="this.style.background='transparent';this.style.color='#a0b4c8'">Relatórios</a>
+      <a href="#equipe" onclick="navegarPara('equipe')" style="color:#a0b4c8;text-decoration:none;padding:8px 16px;border-radius:8px;font-size:0.9rem;cursor:pointer;" onmouseover="this.style.background='rgba(0,212,255,0.15)';this.style.color='#00d4ff'" onmouseout="this.style.background='transparent';this.style.color='#a0b4c8'">Equipe</a>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:12px;">
+      <button onclick="abrirNotificacoes()" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:#a0b4c8;padding:8px 12px;border-radius:8px;cursor:pointer;font-size:1rem;position:relative;" onmouseover="this.style.background='rgba(0,212,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'">
+        🔔
+        <span id="badgeNotif" style="position:absolute;top:-4px;right:-4px;background:#ff4757;color:white;font-size:0.65rem;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;">3</span>
+      </button>
+      <div onclick="abrirPerfil()" style="width:38px;height:38px;background:linear-gradient(135deg,#00d4ff,#0080ff);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.9rem;cursor:pointer;border:2px solid rgba(0,212,255,0.5);">JD</div>
+    </div>
+  </nav>
+</header>
+
+<!-- ETAPA 2: HERO / DASHBOARD PRINCIPAL -->
+<main style="max-width:1400px;margin:0 auto;padding:20px;">
+
+  <!-- SEÇÃO DASHBOARD -->
+  <section id="secao-dashboard" style="display:block;">
+    
+    <!-- Saudação -->
+    <div style="margin-bottom:24px;padding:24px;background:linear-gradient(135deg,rgba(0,212,255,0.1),rgba(0,128,255,0.05));border:1px solid rgba(0,212,255,0.2);border-radius:16px;">
+      <h1 style="margin:0 0 6px;font-size:clamp(1.4rem,3vw,2rem);font-weight:700;">Olá, João Dias! 👋</h1>
+      <p style="margin:0;color:#a0b4c8;font-size:0.95rem;" id="dataAtual"></p>
+    </div>
+
+    <!-- Cards de Métricas -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:24px;">
+      
+      <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border:1px solid rgba(0,212,255,0.2);border-radius:16px;padding:20px;position:relative;overflow:hidden;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 8px 25px rgba(0,212,255,0.2)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='none'" style="transition:all 0.3s;">
+        <div style="position:absolute;top:-20px;right:-20px;width:80px;height:80px;background:rgba(0,212,255,0.05);border-radius:50%;"></div>
+        <div style="font-size:2rem;margin-bottom:8px;">📁</div>
+        <div style="font-size:2rem;font-weight:700;color:#00d4ff;" id="totalProjetos">12</div>
+        <div style="color:#a0b4c8;font-size:0.85rem;margin-top:4px;">Projetos Ativos</div>
+        <div style="color:#2ecc71;font-size:0.8rem;margin-top:8px;">▲ +3 este mês</div>
+      </div>
+
+      <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border:1px solid rgba(255,71,87,0.3);border-radius:16px;padding:20px;position:relative;overflow:hidden;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 8px 25px rgba(255,71,87,0.2)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='none'">
+        <div style="font-size:2rem;margin-bottom:8px;">✅</div>
+        <div style="font-size:2rem;font-weight:700;color:#ff4757;" id="totalTarefas">47</div>
+        <div style="color:#a0b4c8;font-size:0.85rem;margin-top:4px;">Tarefas Pendentes</div>
+        <div style="color:#ff6b7a;font-size:0.8rem;margin-top:8px;">⚠ 8 urgentes</div>
+      </div>
+
+      <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border:1px solid rgba(46,204,113,0.3);border-radius:16px;padding:20px;position:relative;overflow:hidden;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 8px 25px rgba(46,204,113,0.2)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='none'">
+        <div style="font-size:2rem;margin-bottom:8px;">👥</div>
+        <div style="font-size:2rem;font-weight:700;color:#2ecc71;" id="totalMembros">8</div>
+        <div style="color:#a0b4c8;font-size:0.85rem;margin-top:4px;">Membros da Equipe</div>
+        <div style="color:#2ecc71;font-size:0.8rem;margin-top:8px;">● 6 online agora</div>
+      </div>
+
+      <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border:1px solid rgba(255,165,0,0.3);border-radius:16px;padding:20px;position:relative;overflow:hidden;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 8px 25px rgba(255,165,0,0.2)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='none'">
+        <div style="font-size:2rem;margin-bottom:8px;">📊</div>
+        <div style="font-size:2rem;font-weight:700;color:#ffa500;" id="taxaConclusao">73%</div>
+        <div style="color:#a0b4c8;font-size:0.85rem;margin-top:4px;">Taxa de Conclusão</div>
+        <div style="color:#ffa500;font-size:0.8rem;margin-top:8px;">▲ +5% vs mês ant.</div>
+      </div>
+    </div>
+
+    <!-- Gráfico de Atividade + Atividade Recente -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-bottom:24px;">
+      
+      <!-- Gráfico de Barras Visual -->
+      <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border:1px solid rgba(0,212,255,0.15);border-radius:16px;padding:24px;">
+        <h3 style="margin:0 0 20px;font-size:1.1rem;color:#e0e0e0;">Atividade Semanal</h3>
+        <div style="display:flex;align-items:flex-end;gap:8px;height:120px;padding-bottom:8px;">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;">
+            <div style="background:linear-gradient(180deg,#00d4ff,#0080ff);width:100%;height:40%;border-radius:4px 4px 0 0;"></div>
+            <span style="font-size:0.7rem;color:#a0b4c8;">Seg</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;">
+            <div style="background:linear-gradient(180deg,#00d4ff,#0080ff);width:100%;height:70%;border-radius:4px 4px 0 0;"></div>
+            <span style="font-size:0.7rem;color:#a0b4c8;">Ter</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;">
+            <div style="background:linear-gradient(180deg,#00d4ff,#0080ff);width:100%;height:55%;border-radius:4px 4px 0 0;"></div>
+            <span style="font-size:0.7rem;color:#a0b4c8;">Qua</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;">
+            <div style="background:linear-gradient(180deg,#00d4ff,#0080ff);width:100%;height:90%;border-radius:4px 4px 0 0;box-shadow:0 0 10px rgba(0,212,255,0.5);"></div>
+            <span style="font-size:0.7rem;color:#a0b4c8;">Qui</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;">
+            <div style="background:linear-gradient(180deg,#00d4ff,#0080ff);width:100%;height:65%;border-radius:4px 4px 0 0;"></div>
+            <span style="font-size:0.7rem;color:#a0b4c8;">Sex</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;">
+            <div style="background:linear-gradient(180deg,#ffa500,#ff6b00);width:100%;height:30%;border-radius:4px 4px 0 0;"></div>
+            <span style="font-size:0.7rem;color:#a0b4c8;">Sáb</span>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;">
+            <div style="background:linear-gradient(180deg,#ffa500,#ff6b00);width:100%;height:15%;border-radius:4px 4px 0 0;"></div>
+            <span style="font-size:0.7rem;color:#a0b4c8;">Dom</span>
+          </div>
+        </div>
+        <div style="display:flex;gap:16px;margin-top:8px;">
+          <span style="font-size:0.75rem;color:#a0b4c8;display:flex;align-items:center;gap:4px;"><span style="display:inline-block;width:10px;height:10px;background:#00d4ff;border-radius:2px;"></span>Dias úteis</span>
+          <span style="font-size:0.75rem;color:#a0b4c8;display:flex;align-items:center;gap:4px;"><span style="display:inline-block;width:10px;height:10px;background:#ffa500;border-radius:2px;"></span>Fins de semana</span>
+        </div>
+      </div>
+
+      <!-- Atividade Recente -->
+      <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border:1px solid rgba(0,212,255,0.15);border-radius:16px;padding:24px;">
+        <h3 style="margin:0 0 16px;font-size:1.1rem;color:#e0e0e0;">Atividade Recente</h3>
+        <div id="listaAtividade" style="display:flex;flex-direction:column;gap:12px;">
+          <div style="display:flex;gap:12px;align-items:flex-start;">
+            <div style="width:32px;height:32px;background:rgba(0,212,255,0.15);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">✅</div>
+            <div>
+              <div style="font-size:0.85rem;color:#e0e0e0;">Tarefa concluída: <strong>Design UI</strong></div>
+              <div style="font-size:0.75rem;color:#a0b4c8;">Há 2 horas · Ana Silva</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;">
+            <div style="width:32px;height:32px;background:rgba(255,165,0,0.15);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">📁</div>
+            <div>
+              <div style="font-size:0.85rem;color:#e0e0e0;">Novo projeto: <strong>App Mobile v2</strong></div>
+              <div style="font-size:0.75rem;color:#a0b4c8;">Há 5 horas · Carlos Lima</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;">
+            <div style="width:32px;height:32px;background:rgba(46,204,113,0.15);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">👥</div>
+            <div>
+              <div style="font-size:0.85rem;color:#e0e0e0;">Membro adicionado: <strong>Maria Costa</strong></div>
+              <div style="font-size:0.75rem;color:#a0b4c8;">Há 1 dia · João Dias</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start;">
+            <div style="width:32px;height:32px;background:rgba(255,71,87,0.15);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">⚠️</div>
+            <div>
+              <div style="font-size:0.85rem;color:#e0e0e0;">Prazo próximo: <strong>API Integration</strong></div>
+              <div style="font-size:0.75rem;color:#a0b4c8;">Vence amanhã · Pedro Alves</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Progresso dos Projetos -->
+    <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border:1px solid rgba(0,212,255,0.15);border-radius:16px;padding:24px;margin-bottom:24px;">
+      <h3 style="margin:0 0 20px;font-size:1.1rem;color:#e0e0e0;">Progresso dos Projetos em Destaque</h3>
+      <div style="display:flex;flex-direction:column;gap:16px;">
+        
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+            <span style="font-size:0.9rem;">Website Corporativo</span>
+            <span style="font-size:0.9rem;color:#00d4ff;">85%</span>
+          </div>
+          <div style="background:rgba(255,255,255,0.08);border-radius:8px;height:8px;overflow:hidden;">
+            <div style="background:linear-gradient(90deg,#00d4ff,#0080ff);height:100%;width:85%;border-radius:8px;box-shadow:0 0 8px rgba(0,212,255,0.5);"></div>
+          </div>
+        </div>
+
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+            <span style="font-size:0.9rem;">App Mobile v2</span>
+            <span style="font-size:0.9rem;color:#ffa500;">42%</span>
+          </div>
+          <div style="background:rgba(255,255,255,0.08);border-radius:8px;height:8px;overflow:hidden;">
+            <div style="background:linear-gradient(90deg,#ffa500,#ff6b00);height:100%;width:42%;border-radius:8px;box-shadow:0 0 8px rgba(255,165,0,0.5);"></div>
+          </div>
+        </div>
+
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+            <span style="font-size:0.9rem;">Sistema de Pagamentos</span>
+            <span style="font-size:0.9rem;color:#2ecc71;">95%</span>
+          </div>
+          <div style="background:rgba(255,255,255,0.08);border-radius:8px;height:8px;overflow:hidden;">
+            <div style="background:linear-gradient(90deg,#2ecc71,#00a854);height:100%;width:95%;border-radius:8px;box-shadow:0 0 8px rgba(46,204,113,0.5);"></div>
+          </div>
+        </div>
+
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+            <span style="font-size:0.9rem;">API Integration</span>
+            <span style="font-size:0.9rem;color:#ff4757;">28%</span>
+          </div>
+          <div style="background:rgba(255,255,255,0.08);border-radius:8px;height:8px;overflow:hidden;">
+            <div style="background:linear-gradient(90deg,#ff4757,#c0392b);height:100%;width:28%;border-radius:8px;box-shadow:0 0 8px rgba(255,71,87,0.5);"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ETAPA 3: SEÇÃO DE PROJETOS -->
+  <section id="secao-projetos" style="display:none;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:12px;">
+      <h2 style="margin:0;font-size:clamp(1.2rem,3vw,1.6rem);">📁 Gerenciamento de Projetos</h2>
+      <button onclick="abrirModalNovoProjeto()" style="background:linear-gradient(135deg,#00d4ff,#0080ff);border:none;color:white;padding:10px 20px;border-radius:10px;cursor:pointer;font-size:0.9rem;font-weight:600;box-shadow:0 4px 15px rgba(0,212,255,0.3);" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">+ Novo Projeto</button>
+    </div>
+
+    <!-- Filtros de Projetos -->
+    <div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;">
+      <button onclick="filtrarProjetos('todos')" id="filtro-todos" style="background:rgba(0,212,255,0.2);border:1px solid #00d4ff;color:#00d4ff;padding:6px 16px;border-radius:20px;cursor:pointer;font-size:0.85rem;">Todos</button>
+      <button onclick="filtrarProjetos('ativo')" id="filtro-ativo" style="background:transparent;border:1px solid rgba(255,255,255,0.15);color:#a0b4c8;padding:6px 16px;border-radius:20px;cursor:pointer;font-size:0.85rem;">Ativos</button>
+      <button onclick="filtrarProjetos('pausado')" id="filtro-pausado" style="background:transparent;border:1px solid rgba(255,255,255,0.15);color:#a0b4c8;padding:6px 16px;border-radius:20px;cursor:pointer;font-size:0.85rem;">Pausados</button>
+      <button onclick="filtrarProjetos('concluido')" id="filtro-concluido" style="background:transparent;border:1px solid rgba(255,255,255,0.15);color:#a0b4c8;padding:6px 16px;border-radius:20px;cursor:pointer;font-size:0.85rem;">Concluídos</button>
+    </div>
+
+    <div id="gridProjetos" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;"></div>
+  </section>
+
+  <!-- ETAPA 4: SEÇÃO DE TAREFAS (KANBAN) -->
+  <section id="secao-tarefas" style="display:none;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:12px;">
+      <h2 style="margin:0;font-size:clamp(1.2rem,3vw,1.6rem);">✅ Board de Tarefas</h2>
+      <button onclick="abrirModalNovaTarefa()" style="background:linear-gradient(135deg,#00d4ff,#0080ff);border:none;color:white;padding:10px 20px;border-radius:10px;cursor:pointer;font-size:0.9rem;font-weight:600;box-shadow:0 4px 15px rgba(0,212,255,0.3);" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">+ Nova Tarefa</button>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;overflow-x:auto;">
+      
+      <!-- Coluna: A Fazer -->
+      <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border:1px solid rgba(255,165,0,0.2);border-radius:16px;padding:16px;min-height:400px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+          <h3 style="margin:0;font-size:1rem;color:#ffa500;">🟡 A Fazer</h3>
+          <span id="count-afazer" style="background:rgba(255,165,0,0.2);color:#ffa500;padding:2px 8px;border-radius:10px;font-size:0.8rem;">0</span>
+        </div>
+        <div id="col-afazer" style="display:flex;flex-direction:column;gap:10px;min-height:300px;"></div>
+      </div>
+
+      <!-- Coluna: Em Progresso -->
+      <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border:1px solid rgba(0,212,255,0.2);border-radius:16px;padding:16px;min-height:400px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+          <h3 style="margin:0;font-size:1rem;color:#00d4ff;">🔵 Em Progresso</h3>
+          <span id="count-progresso" style="background:rgba(0,212,255,0.2);color:#00d4ff;padding:2px 8px;border-radius:10px;font-size:0.8rem;">0</span>
+        </div>
+        <div id="col-progresso" style="display:flex;flex-direction:column;gap:10px;min-height:300px;"></div>
+      </div>
+
+      <!-- Coluna: Revisão -->
+      <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border:1px solid rgba(155,89,182,0.2);border-radius:16px;padding:16px;min-height:400px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+          <h3 style="margin:0;font-size:1rem;color:#9b59b6;">🟣 Em Revisão</h3>
+          <span id="count-revisao" style="background:rgba(155,89,182,0.2);color:#9b59b6;padding:2px 8px;border-radius:10px;font-size:0.8rem;">0</span>
+        </div>
+        <div id="col-revisao" style="display:flex;flex-direction:column;gap:10px;min-height:300px;"></div>
+      </div>
+
+      <!-- Coluna: Concluído -->
+      <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border:1
+</html>
