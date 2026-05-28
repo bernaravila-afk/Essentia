@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#A8D5A2" />
+  <meta name="description" content="Cardápio Digital Health Bar - Receitas saudáveis e nutritivas" />
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Health Bar - Cardápio Digital" />
+  <meta property="og:description" content="Descubra receitas saudáveis, nutritivas e deliciosas do Health Bar." />
+  <meta property="og:image" content="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=1200&q=80" />
+  <meta property="og:type" content="website" />
+
+  <title>Health Bar — Cardápio Digital</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ============================================================
+       DESIGN TOKENS & CSS CUSTOM PROPERTIES
+    ============================================================ */
+    :root {
+      --color-bg:        #FAFAF8;
+      --color-surface:   #FFFFFF;
+      --color-border:    #EBEBEB;
+      --color-text:      #1C1C1A;
+      --color-muted:     #6B6B67;
+      --color-brand:     #A8D5A2;
+      --color-brand-dark:#5FAD57;
+      --color-accent:    #E07A5F;
+
+      /* Paleta dinâmica — sobrescrita por categoria */
+      --cat-primary:     #A8D5A2;
+      --cat-secondary:   #F4F1DE;
+      --cat-accent:      #E07A5F;
+      --cat-text:        #2D2D2D;
+
+      --font-display:    'DM Serif Display', Georgia, serif;
+      --font-body:       'DM Sans', system-ui, sans-serif;
+
+      --radius-sm:       8px;
+      --radius-md:       16px;
+      --radius-lg:       24px;
+      --radius-xl:       32px;
+
+      --shadow-card:     0 2px 12px rgba(0,0,0,.07), 0 1px 3px rgba(0,0,0,.05);
+      --shadow-modal:    0 -4px 32px rgba(0,0,0,.12);
+
+      --nav-height:      68px;
+      --header-height:   60px;
+
+      --transition:      .25s cubic-bezier(.4,0,.2,1);
+      --transition-slow: .4s cubic-bezier(.4,0,.2,1);
+    }
+
+    /* ============================================================
+       RESET & BASE
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--color-bg);
+      color: var(--color-text);
+      min-height: 100dvh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+
+    button {
+      font-family: inherit;
+      cursor: pointer;
+      border: none;
+      background: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* ============================================================
+       TYPOGRAPHY
+    ============================================================ */
+    .t-display   { font-family: var(--font-display); font-size: clamp(2rem, 6vw, 3rem); line-height: 1.1; }
+    .t-heading   { font-family: var(--font-display); font-size: clamp(1.4rem, 4vw, 2rem); line-height: 1.2; }
+    .t-subhead   { font-family: var(--font-display); font-size: clamp(1.1rem, 3vw, 1.4rem); line-height: 1.3; }
+    .t-body      { font-size: .9375rem; line-height: 1.65; }
+    .t-small     { font-size: .8125rem; line-height: 1.5; }
+    .t-label     { font-size: .75rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+    .t-muted     { color: var(--color-muted); }
+
+    /* ============================================================
+       LAYOUT UTILITIES
+    ============================================================ */
+    .container {
+      width: 100%;
+      max-width: 480px;
+      margin-inline: auto;
+      padding-inline: 20px;
+    }
+
+    @media (min-width: 768px) {
+      .container { max-width: 960px; padding-inline: 32px; }
+    }
+
+    .visually-hidden {
+      position: absolute; width: 1px; height: 1px;
+      padding: 0; margin: -1px; overflow: hidden;
+      clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+    }
+
+    /* ============================================================
+       APP SHELL
+    ============================================================ */
+    #app {
+      display: flex;
+      flex-direction: column;
+      min-height: 100dvh;
+    }
+
+    /* ============================================================
+       SCREENS — base
+    ============================================================ */
+    .screen {
+      display: none;
+      flex-direction: column;
+      min-height: 100dvh;
+      animation: screenIn var(--transition) both;
+    }
+
+    .screen.active {
+      display: flex;
+    }
+
+    @keyframes screenIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ============================================================
+       SCREEN 01 — SPLASH / HOME
+    ============================================================ */
+    #screen-splash {
+      background: linear-gradient(160deg, #E8F5E4 0%, #F4F1DE 50%, #FAFAF8 100%);
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 32px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .splash-bg-circle {
+      position: absolute;
+      border-radius: 50%;
+      background: var(--color-brand);
+      opacity: .12;
+      pointer-events: none;
+    }
+
+    .splash-bg-circle.c1 { width: 320px; height: 320px; top: -80px; right: -80px; }
+    .splash-bg-circle.c2 { width: 200px; height: 200px; bottom: 60px; left: -60px; }
+    .splash-bg-circle.c3 { width: 120px; height: 120px; top: 40%; right: -20px; opacity: .08; }
+
+    .splash-logo {
+      width: 80px;
+      height: 80px;
+      background: var(--color-brand);
+      border-radius: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 28px;
+      box-shadow: 0 8px 32px rgba(168,213,162,.4);
+      animation: logoPop .6s cubic-bezier(.34,1.56,.64,1) .2s both;
+    }
+
+    @keyframes logoPop {
+      from { opacity: 0; transform: scale(.6); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    .splash-logo svg { width: 44px; height: 44px; }
+
+    .splash-content {
+      animation: fadeUp .5s ease .4s both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .splash-tagline {
+      font-size: .875rem;
+      font-weight: 500;
+      color: var(--color-brand-dark);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .splash-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 8vw, 3.2rem);
+      line-height: 1.05;
+      color: var(--color-text);
+      margin-bottom: 16px;
+    }
+
+    .splash-title em {
+      font-style: italic;
+      color: var(--color-brand-dark);
+    }
+
+    .splash-subtitle {
+      font-size: 1rem;
+      color: var(--color-muted);
+      max-width: 300px;
+      margin: 0 auto 40px;
+      line-height: 1.6;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--color-text);
+      color: #fff;
+      font-family: var(--font-body);
+      font-size: .9375rem;
+      font-weight: 600;
+      padding: 16px 32px;
+      border-radius: 100px;
+      transition: transform var(--transition), box-shadow var(--transition);
+      min-height: 56px;
+    }
+
+    .btn-primary:hover  { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.15); }
+    .btn-primary:active { transform: translateY(0); }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      color: var(--color-muted);
+      font-size: .875rem;
+      font-weight: 500;
+      padding: 12px 20px;
+      border-radius: 100px;
+      border: 1.5px solid var(--color-border);
+      transition: all var(--transition);
+      min-height: 44px;
+    }
+
+    .btn-secondary:hover { border-color: var(--color-text); color: var(--color-text); }
+
+    .splash-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .splash-scroll-hint {
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      opacity: .4;
+      animation: bounce 2s ease infinite 1.5s;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50%       { transform: translateX(-50%) translateY(6px); }
+    }
+
+    /* ============================================================
+       HEADER COMPONENT
+    ============================================================ */
+    .app-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(250,250,248,.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--color-border);
+      height: var(--header-height);
+      display: flex;
+      align-items: center;
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding-inline: 20px;
+    }
+
+    .header-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      color: var(--color-text);
+    }
+
+    .header-logo-mark {
+      width: 32px;
+      height: 32px;
+      background: var(--color-brand);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-icon {
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      color: var(--color-text);
+      transition: background var(--transition);
+    }
+
+    .btn-icon:hover { background: var(--color-border); }
+
+    /* ============================================================
+       CATEGORY HEADER (colored)
+    ============================================================ */
+    .category-header {
+      background: var(--cat-secondary);
+      padding: 24px 20px 28px;
+      border-bottom: 1px solid rgba(0,0,0,.06);
+    }
+
+    .category-header-back {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: .875rem;
+      font-weight: 500;
+      color: var(--cat-text);
+      opacity: .7;
+      margin-bottom: 16px;
+      min-height: 44px;
+      width: fit-content;
+    }
+
+    .category-header-back:hover { opacity: 1; }
+
+    .category-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--cat-primary);
+      color: var(--cat-text);
+      font-size: .75rem;
+      font-weight: 600;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 100px;
+      margin-bottom: 12px;
+    }
+
+    .category-header-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 5vw, 2.2rem);
+      line-height: 1.15;
+      color: var(--cat-text);
+      margin-bottom: 10px;
+    }
+
+    .category-header-desc {
+      font-size: .9375rem;
+      color: var(--cat-text);
+      opacity: .75;
+      line-height: 1.65;
+      max-width: 480px;
+    }
+
+    /* ============================================================
+       BOTTOM NAVIGATION
+    ============================================================ */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 200;
+      background: rgba(250,250,248,.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-top: 1px solid var(--color-border);
+      height: var
+</html>
