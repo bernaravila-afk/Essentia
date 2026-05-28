@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#A8D5A2">
+<meta name="description" content="Cardápio Digital Health Bar - Receitas saudáveis e nutritivas">
+<meta property="og:title" content="Health Bar Cardápio Digital">
+<meta property="og:description" content="Explore nossas receitas saudáveis e nutritivas">
+<meta property="og:type" content="website">
+<title>Health Bar — Cardápio Digital</title>
+</head>
+<body style="margin:0;padding:0;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#FAFAF8;color:#2D2D2D;overscroll-behavior:none;">
+
+<!-- APP ROOT -->
+<div id="app" style="max-width:768px;margin:0 auto;min-height:100vh;position:relative;background:#FAFAF8;overflow:hidden;"></div>
+
+<script>
+// ============================================================
+// DATA LAYER
+// ============================================================
+const DATA = {
+  categories: [
+    {
+      id: "cat01", slug: "smoothies", name: "Smoothies",
+      conceptual_text_short: "Energia pura em cada gole",
+      conceptual_text_full: "Nossos smoothies são criados com frutas selecionadas, superalimentos e proteínas naturais. Cada receita é pensada para nutrir o corpo e despertar a vitalidade, combinando sabor intenso com benefícios reais para o seu bem-estar.",
+      image_url: "https://images.unsplash.com/photo-1638176066959-0ba5f41ceaf0?w=800&q=80",
+      color_palette: { primary: "#A8D5A2", secondary: "#F4F1DE", accent: "#4CAF50", text: "#1B4332" },
+      recipe_count: 3, display_order: 1
+    },
+    {
+      id: "cat02", slug: "bowls", name: "Açaí & Bowls",
+      conceptual_text_short: "Equilíbrio que você pode sentir",
+      conceptual_text_full: "Bowls que transcendem o visual bonito. Cada camada é planejada para oferecer macronutrientes equilibrados, fibras e antioxidantes. Uma refeição completa disfarçada de prazer puro.",
+      image_url: "https://images.unsplash.com/photo-1590301157890-4810ed352733?w=800&q=80",
+      color_palette: { primary: "#C084FC", secondary: "#F5F3FF", accent: "#7C3AED", text: "#2E1065" },
+      recipe_count: 2, display_order: 2
+    },
+    {
+      id: "cat03", slug: "sucos", name: "Sucos Naturais",
+      conceptual_text_short: "Direto da natureza para você",
+      conceptual_text_full: "Extraídos na hora, sem conservantes, sem adição de açúcar. Nossos sucos capturam a essência das frutas e vegetais no seu estado mais puro, preservando vitaminas e enzimas vitais para o seu organismo.",
+      image_url: "https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=800&q=80",
+      color_palette: { primary: "#FCD34D", secondary: "#FFFBEB", accent: "#F59E0B", text: "#451A03" },
+      recipe_count: 2, display_order: 3
+    },
+    {
+      id: "cat04", slug: "proteicos", name: "Proteicos",
+      conceptual_text_short: "Força e recuperação em harmonia",
+      conceptual_text_full: "Desenvolvidos para quem não abre mão de performance sem sacrificar o sabor. Nossas receitas proteicas combinam fontes de proteína de alta qualidade com ingredientes que aceleram a recuperação muscular.",
+      image_url: "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=800&q=80",
+      color_palette: { primary: "#FCA5A5", secondary: "#FFF1F2", accent: "#EF4444", text: "#450A0A" },
+      recipe_count: 2, display_order: 4
+    }
+  ],
+  recipes: [
+    {
+      id: "rec01", slug: "green-power", name: "Green Power",
+      category_id: "cat01",
+      description_short: "Espinafre, maçã verde, gengibre e limão. Detox poderoso.",
+      description_full: "Uma combinação inteligente de folhas verdes, frutas refrescantes e especiarias que ativam o metabolismo. Rico em clorofila, vitamina C e antioxidantes, o Green Power é o seu aliado matinal para começar o dia com energia e clareza mental.",
+      photo_url: "https://images.unsplash.com/photo-1610970881699-44a5587cabec?w=800&q=80",
+      photo_alt_text: "Smoothie verde em copo transparente com folhas frescas ao redor",
+      video_url: "https://www.youtube.com/embed/videoseries?list=PLsunset",
+      video_type: "youtube",
+      video_thumbnail_url: "https://images.unsplash.com/photo-1610970881699-44a5587cabec?w=800&q=80",
+      is_complete: true, adapted_for_home: true,
+      home_adaptation_notes: "Pode usar liquidificador comum no lugar de blender profissional. Adicione um pouco mais de água se necessário.",
+      preparation_method: {
+        servings: "1 porção (400ml)", prep_time_minutes: 5,
+        ingredients: [
+          { item: "Espinafre baby", quantity: "1 xícara", notes: "lavado" },
+          { item: "Maçã verde", quantity: "1 unidade", notes: "sem sementes" },
+          { item: "Pepino", quantity: "½ unidade", notes: "com casca" },
+          { item: "Gengibre", quantity: "1 cm", notes: "descascado" },
+          { item: "Limão", quantity: "½ unidade", notes: "suco" },
+          { item: "Água de coco", quantity: "200ml", notes: "" },
+          { item: "Gelo", quantity: "a gosto", notes: "" }
+        ],
+        steps: [
+          { order: 1, description: "Lave bem todos os ingredientes frescos." },
+          { order: 2, description: "Corte a maçã e o pepino em pedaços menores para facilitar o processamento." },
+          { order: 3, description: "Adicione o espinafre e a água de coco primeiro no liquidificador." },
+          { order: 4, description: "Adicione os demais ingredientes e o gelo." },
+          { order: 5, description: "Bata por 60-90 segundos até obter textura completamente lisa." },
+          { order: 6, description: "Sirva imediatamente para preservar os nutrientes." }
+        ],
+        equipment: ["Liquidificador ou blender", "Faca e tábua", "Copo 500ml"],
+        substitution_tips: [
+          { original: "Água de coco", substitute: "Água filtrada ou leite de amêndoas" },
+          { original: "Espinafre", substitute: "Couve manteiga (use metade da quantidade)" }
+        ]
+      },
+      nutritional_info: { serving_size: "400ml", calories: 120, protein_g: 3, carbohydrates_g: 28, fat_g: 1, fiber_g: 5, sodium_mg: 85 }
+    },
+    {
+      id: "rec02", slug: "tropical-boost", name: "Tropical Boost",
+      category_id: "cat01",
+      description_short: "Manga, abacaxi, cúrcuma e leite de coco. Anti-inflamatório.",
+      description_full: "Uma explosão tropical com propriedades anti-inflamatórias potentes. A combinação de manga e abacaxi fornece enzimas digestivas naturais, enquanto a cúrcuma e a pimenta-do-reino ativam o sistema imunológico.",
+      photo_url: "https://images.unsplash.com/photo-1623065422902-30a2d299bbe4?w=800&q=80",
+      photo_alt_text: "Smoothie amarelo tropical em copo com pedaços de manga e abacaxi",
+      video_url: "", video_type: "none", video_thumbnail_url: "",
+      is_complete: true, adapted_for_home: true,
+      home_adaptation_notes: "Use manga congelada para textura mais cremosa sem precisar de gelo extra.",
+      preparation_method: {
+        servings: "1 porção (450ml)", prep_time_minutes: 7,
+        ingredients: [
+          { item: "Manga", quantity: "1 xícara", notes: "congelada ou fresca" },
+          { item: "Abacaxi", quantity: "½ xícara", notes: "cortado" },
+          { item: "Leite de coco", quantity: "150ml", notes: "" },
+          { item: "Cúrcuma", quantity: "1 colher de chá", notes: "" },
+          { item: "Pimenta-do-reino", quantity: "uma pitada", notes: "ativa curcumina" },
+          { item: "Mel", quantity: "1 colher de sobremesa", notes: "opcional" }
+        ],
+        steps: [
+          { order: 1, description: "Se usar manga fresca, corte em cubos e congele por 2 horas antes." },
+          { order: 2, description: "Bata o abacaxi com o leite de coco primeiro." },
+          { order: 3, description: "Adicione a manga, cúrcuma e pimenta." },
+          { order: 4, description: "Bata até ficar cremoso. Adoce com mel se desejar." },
+          { order: 5, description: "Sirva em copo gelado." }
+        ],
+        equipment: ["Liquidificador", "Copo 500ml", "Colher"],
+        substitution_tips: [
+          { original: "Leite de coco", substitute: "Leite de castanha ou iogurte natural" },
+          { original: "Mel", substitute: "Tâmara ou banana madura" }
+        ]
+      },
+      nutritional_info: { serving_size: "450ml", calories: 210, protein_g: 2, carbohydrates_g: 42, fat_g: 6, fiber_g: 4, sodium_mg: 30 }
+    },
+    {
+      id: "rec03", slug: "berry-antioxidante", name: "Berry Antioxidante",
+      category_id: "cat01",
+      description_short: "Mirtilo, morango, chia e iogurte grego. Em breve.",
+      description_full: "", photo_url: "https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=800&q=80",
+      photo_alt_text: "Smoothie roxo com frutas vermelhas",
+      video_url: "", video_type: "none", video_thumbnail_url: "",
+      is_complete: false, adapted_for_home: false, home_adaptation_notes: "",
+      preparation_method: null, nutritional_info: null
+    },
+    {
+      id: "rec04", slug: "acai-premium", name: "Açaí Premium",
+      category_id: "cat02",
+      description_short: "Açaí 100% puro, granola artesanal, banana e mel silvestre.",
+      description_full: "O nosso bowl de açaí é preparado com polpa 100% pura, sem adição de xarope ou açúcar. A granola artesanal é feita com aveia, sementes e mel, e as toppings são selecionados para complementar os polifenóis do açaí.",
+      photo_url: "https://images.unsplash.com/photo-1590301157890-4810ed352733?w=800&q=80",
+      photo_alt_text: "Bowl de açaí decorado com granola, banana fatiada e mel",
+      video_url: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      video_type: "youtube", video_thumbnail_url: "https://images.unsplash.com/photo-1590301157890-4810ed352733?w=800&q=80",
+      is_complete: true, adapted_for_home: true,
+      home_adaptation_notes: "Use polpa de açaí congelada encontrada em supermercados. Bata com menos água para manter a textura grossa.",
+      preparation_method: {
+        servings: "1 bowl (350g)", prep_time_minutes: 10,
+        ingredients: [
+          { item: "Polpa de açaí", quantity: "200g", notes: "100% pura, sem xarope" },
+          { item: "Banana", quantity: "½ unidade", notes: "para bater" },
+          { item: "Leite de amêndoas", quantity: "50ml", notes: "" },
+          { item: "Granola artesanal", quantity: "3 colheres", notes: "topping" },
+          { item: "Banana", quantity: "½ unidade", notes: "fatiada, topping" },
+          { item: "Mel silvestre", quantity: "1 colher de chá", notes: "topping" },
+          { item: "Sementes de chia", quantity: "1 colher de chá", notes: "topping" }
+        ],
+        steps: [
+          { order: 1, description: "Bata a polpa de açaí com banana e leite de amêndoas até textura cremosa e densa." },
+          { order: 2, description: "Sirva em bowl gelado." },
+          { order: 3, description: "Monte os toppings: granola, banana fatiada, chia e mel." },
+          { order: 4, description: "Sirva imediatamente." }
+        ],
+        equipment: ["Liquidificador potente ou processador", "Bowl", "Colheres"],
+        substitution_tips: [
+          { original: "Leite de amêndoas", substitute: "Leite de coco ou água de coco" },
+          { original: "Mel silvestre", substitute: "Agave ou xarope de tâmara" }
+        ]
+      },
+      nutritional_info: { serving_size: "350g", calories: 380, protein_g: 8, carbohydrates_g: 55, fat_g: 14, fiber_g: 9, sodium_mg: 45 }
+    },
+    {
+      id: "rec05", slug: "pitaya-bowl", name: "Pitaya Bowl",
+      category_id: "cat02",
+      description_short: "Pitaya rosa, coco ralado e frutas tropicais. Em breve.",
+      description_full: "", photo_url: "https://images.unsplash.com/photo-1546039907-7fa05f864c02?w=800&q=80",
+      photo_alt_text: "Bowl de pitaya rosa com frutas tropicais",
+      video_url: "", video_type: "none", video_thumbnail_url: "",
+      is_complete: false, adapted_for_home: false, home_adaptation_notes: "",
+      preparation_method: null, nutritional_info: null
+    },
+    {
+      id: "rec06", slug: "suco-imunidade", name: "Imunidade Total",
+      category_id: "cat03",
+      description_short: "Laranja, cenoura, gengibre, açafrão e pimenta rosa.",
+      description_full: "Uma fórmula poderosa para fortalecer o sistema imunológico com vitamina C, betacaroteno e compostos bioativos do gengibre e açafrão. Nosso shot de imunidade em versão suco completo.",
+      photo_url: "https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=800&q=80",
+      photo_alt_text: "Suco laranja vibrante em copo com cenoura e laranja ao lado",
+      video_url: "", video_type: "none", video_thumbnail_url: "",
+      is_complete: true, adapted_for_home: true,
+      home_adaptation_notes: "Se não tiver centrífuga, bata tudo no liquidificador com pouca água e coe em peneira fina.",
+      preparation_method: {
+        servings: "1 copo (300ml)", prep_time_minutes: 5,
+        ingredients: [
+          { item: "Laranja", quantity: "3 unidades", notes: "sumo" },
+          { item: "Cenoura", quantity: "1 unidade média", notes: "" },
+          { item: "Gengibre", quantity: "1,5 cm", notes: "fresco" },
+          { item: "Açafrão da terra", quantity: "½ colher de chá", notes: "cúrcuma" },
+          { item: "Pimenta rosa", quantity: "3 grãos", notes: "moída" }
+        ],
+        steps: [
+          { order: 1, description: "Descasque e corte a cenoura em pedaços." },
+          { order: 2, description: "Extraia o suco das laranjas." },
+          { order: 3, description: "Processe a cenoura e o gengibre na centrífuga." },
+          { order: 4, description: "Misture tudo, adicione o açafrão e a pimenta." },
+          { order: 5, description: "Sirva sem filtrar para preservar as fibras." }
+        ],
+        equipment: ["Centrífuga ou liquidificador + peneira", "Copo 350ml"],
+        substitution_tips: [
+          { original: "Açafrão da terra", substitute: "Cúrcuma em pó" },
+          { original: "Pimenta rosa", substitute: "Pitada de pimenta-do-reino" }
+        ]
+      },
+      nutritional_info: { serving_size: "300ml", calories: 95, protein_g: 2, carbohydrates_g: 22, fat_g: 0.5, fiber_g: 3, sodium_mg: 40 }
+    },
+    {
+      id: "rec07", slug: "detox-verde", name: "Detox Verde Limão",
+      category_id: "cat03",
+      description_short: "Pepino, limão siciliano, hortelã e água de coco. Em breve.",
+      description_full: "",
+      photo_url: "https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=800&q=80",
+      photo_alt_text: "Suco verde claro com limão e hortelã",
+      video_url: "", video_type: "none", video_thumbnail_url: "",
+      is_complete: false, adapted_for_home: false, home_adaptation_notes: "",
+      preparation_method: null, nutritional_info: null
+    },
+    {
+      id: "rec08", slug: "whey-shake", name: "Shake Proteico Cacau",
+      category_id: "cat04",
+      description_short: "Whey protein, cacau 70%, banana e pasta de amendoim.",
+      description_full: "O equilíbrio perfeito entre prazer e performance. Com 30g de proteína por dose, este shake usa cacau de alta qualidade para fornecer flavonoides antioxidantes enquanto satisfaz o desejo por chocolate.",
+      photo_url: "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=800&q=80",
+      photo_alt_text: "Shake proteico chocolate em copo com whey e cacau",
+      video_url: "", video_type: "none", video_thumbnail_url: "",
+      is_complete: true, adapted_for_home: true,
+      home_adaptation_notes: "Use qualquer marca de whey protein. Whey concentrado tem mais sabor, whey isolado é mais leve.",
+      preparation_method: {
+        servings: "1 shake (500ml)", prep_time_minutes: 3,
+        ingredients: [
+          { item: "Whey protein chocolate", quantity: "1 scoop (30g)", notes: "" },
+          { item: "Leite desnatado", quantity: "300ml", notes: "ou leite vegetal" },
+          { item: "Banana", quantity: "1 unidade", notes: "madura" },
+          { item: "Cacau em pó 70%", quantity: "1 colher de sopa", notes: "" },
+          { item: "Pasta de amendoim", quantity: "1 colher de sopa", notes: "sem açúcar" },
+          { item: "Gelo", quantity: "4 cubos", notes: "" }
+        ],
+        steps: [
+          { order: 1, description: "Adicione o leite e o gelo primeiro no liquidificador." },
+          { order: 2, description: "Adicione banana, cacau e pasta de amendoim." },
+          { order: 3, description: "Por último, adicione o whey protein." },
+          { order: 4, description: "Bata por 30-45 segundos apenas para não desnaturar a proteína em excesso." },
+          { order: 5, description: "Consuma em até 30 minutos após o preparo." }
+        ],
+        equipment: ["Liquidificador", "Copo 600ml", "Colher medidora"],
+        substitution_tips: [
+          { original: "Leite desnatado", substitute: "Leite de aveia para versão vegana" },
+          { original: "Whey protein", substitute: "Proteína de ervilha ou arroz" }
+        ]
+      },
+      nutritional_info: { serving_size: "500ml", calories: 380, protein_g: 32, carbohydrates_g: 35, fat_g: 10, fiber_g: 3, sodium_mg: 180 }
+    },
+    {
+      id: "rec09", slug: "collagen-latte", name: "Collagen Latte",
+      category_id: "cat04",
+      description_short: "Colágeno hidrolisado, café, baunilha e leite de aveia. Em breve.",
+      description_full: "",
+      photo_url: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80",
+      photo_alt_text: "Latte cremoso com espuma de leite em copo de vidro",
+      video_url: "", video_type: "none", video_thumbnail_url: "",
+      is_complete: false, adapted_for_home: false, home_adaptation_notes: "",
+      preparation_method: null, nutritional_info: null
+    }
+  ]
+};
+
+// ============================================================
+// STATE
+// ============================================================
+const state = {
+  currentScreen: 'home',
+  selectedCategory: null,
+  selectedRecipe: null,
+  shareModalOpen: false,
+  videoPlaying: false
+};
+
+// ============================================================
+// ROUTER
+// ============================================================
+function navigate(screen, param) {
+  state.currentScreen = screen;
+  if (param && screen === 'category') state.selectedCategory = param;
+  if (param && screen === 'recipe') state.selectedRecipe = param;
+  state.shareModalOpen = false;
+  render();
+  window.scrollTo(0, 0);
+}
+
+// ============================================================
+// HELPERS
+// ============================================================
+function getCategoryById(id) { return DATA.categories.find(c => c.id === id); }
+function getRecipeById(id) { return DATA.recipes.find(r => r.id === id); }
+function getRecipesByCategory(catId) { return DATA.recipes.filter(r => r.category_id === catId); }
+function lightenColor(hex, amount) {
+  const num = parseInt(hex.replace('#',''), 16);
+  const r = Math.min(255, (num >> 16) + amount);
+  const g = Math.min(255, ((num >> 8) & 0x00FF) + amount);
+  const b = Math.min(255, (num & 0x0000FF) + amount);
+  return `rgb(${r},${g},${b})`;
+}
+function encodeForWhatsApp(text) { return encodeURIComponent(text); }
+function getYouTubeId(url) {
+  const match = url.match(/embed\/([^?]+)/);
+  return match ? match[1] : null;
+}
+
+// ============================================================
+// SHARE FUNCTIONALITY
+// ============================================================
+function shareRecipe(recipe) {
+  const url = `https://app.healthbar.com/receita/${recipe.slug}?utm_source=share&utm_medium=whatsapp`;
+  const text = `Confira esta receita incrível: ${recipe.name} — ${recipe.description_short}\n\n`;
+  if (navigator.share) {
+    navigator.share({ title: recipe.name, text: recipe.description_short, url: url })
+      .catch(() => showShareModal(recipe));
+  } else { showShareModal(recipe); }
+}
+function showShareModal(recipe) {
+  state.shareModalOpen = true;
+  state.selectedRecipe = recipe.id;
+  render();
+}
+function copyToClipboard(text) {
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(() => showToast('Link copiado!'));
+  } else {
+    const el = document.createElement('textarea');
+    el.value = text;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+    showToast('Link copiado!');
+  }
+}
+function showToast(msg) {
+  const t = document.createElement('div');
+  t.textContent = msg;
+  t.style.cssText = 'position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:#2D2D2D;color:#fff;padding:10px 20px;border-radius:20px;font-size:14px;z-index:9999;opacity:0;transition:opacity 0.3s;pointer-events:none;';
+  document.body.appendChild(t);
+  setTimeout(() => t.style.opacity = '1', 10);
+  setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 300); }, 2500);
+}
+
+// ============================================================
+// COMPONENTS
+// ============================================================
+
+function renderBottomNav() {
+  const items = [
+    { id: 'home', label: 'Início', screen: 'home', icon: '🏠' },
+    { id: 'cardapio', label: 'Cardápio', screen: 'categories', icon: '🥗' },
+    { id: 'videos', label: 'Vídeos', screen: 'videos', icon: '▶️' }
+  ];
+  const current = state.currentScreen;
+  return `<nav style="position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:768px;background:rgba(255,255,255,0.97);backdrop-filter:blur(12px);border-top:1px solid #E8E8E4;display:flex;justify-content:space-around;align-items:center;padding:8px 0 max(8px,env(safe-area-inset-bottom));z-index:100;">
+    ${items.map(item => {
+      const active = (current === item.screen) || (item.screen === 'categories' && (current === 'category' || current === 'recipe'));
+      return `<button onclick="navigate('${item.screen}')" aria-label="${item.label}" style="display:flex;flex-direction:column;align-items:center;gap:4px;border:none;background:none;cursor:pointer;padding:6px 20px;border-radius:12px;transition:all 0.2s;${active ? 'background:#F0FDF4;' : ''}">
+        <span style="font-size:22px;line-height:1;">${item.icon}</span>
+        <span style="font-size:11px;font-weight:${active?'700':'500'};color:${active?'#4CAF50':'#888'};letter-spacing:0.3px;">${item.label}</span>
+      </button>`;
+    }).join('')}
+  </nav>`;
+}
+
+function renderShareModal(recipe) {
+  if (!state.shareModalOpen || !recipe) return '';
+  const url = `https://app.healthbar.com/receita/${recipe.slug}?utm_source=share&utm_medium=whatsapp`;
+  const waUrl = `https://wa.me/?text=${encodeForWhatsApp(recipe.name + ' — ' + recipe.description_short + '\n\n' + url)}`;
+  return `<div onclick="if(event.target===this){state.shareModalOpen=false;render();}" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;display:flex;align-items:flex-end;justify-content:center;">
+    <div style="background:#fff;width:100%;max-width:768px;border-radius:24px 24px 0 0;padding:24px;padding-bottom:max(24px,env(safe-area-inset-bottom));animation:slideUp 0.3s ease;">
+      <div style="width:40px;height:4px;background:#E0E0E0;border-radius:2px;margin:0 auto 20px;"></div>
+      <h3 style="margin:0 0 6px;font-size:18px;font-weight:700;">Compartilhar Receita</h3>
+      <p style="margin:0 0 20px;font-size:14px;color:#666;line-height:1.5;">${recipe.name}</p>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <a href="${waUrl}" target="_blank" style="display:flex;align-items:center;gap:14px;padding:14px 16px;background:#F0FDF4;border-radius:14px;text-decoration:none;color:#2D2D2D;">
+          <span style="font-size:24px;">💬</span>
+          <div><div style="font-weight:600;font-size:15px;">WhatsApp</div><div style="font-size:12px;color:#666;">Enviar para contatos</div></div>
+        </a>
+        <button onclick="copyToClipboard('${url}')" style="display:flex;align-items:center;gap:14px;padding:14px 16px;background:#F8F8F8;border-radius:14px;border:none;cursor:pointer;width:100%;text-align:left;">
+          <span style="font-size:24px;">🔗</span>
+          <div><div style="font-weight:600;font-size:15px;">Copiar Link</div><div style="font-size:12px;color:#666
+</html>
