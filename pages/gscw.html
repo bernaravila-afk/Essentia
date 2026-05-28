@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Formulário - Etapas 1 a 4</title>
+</head>
+<body style="margin:0; padding:0; font-family:'Segoe UI', Arial, sans-serif; background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); min-height:100vh; display:flex; align-items:center; justify-content:center;">
+
+  <!-- WRAPPER PRINCIPAL -->
+  <div id="app" style="width:100%; max-width:520px; margin:0 auto; padding:16px; box-sizing:border-box;">
+
+    <!-- CARD PRINCIPAL -->
+    <div id="card" style="background:#ffffff; border-radius:20px; box-shadow:0 24px 64px rgba(0,0,0,0.45); overflow:hidden;">
+
+      <!-- BARRA DE PROGRESSO -->
+      <div style="background:#f0f0f5; height:6px; width:100%;">
+        <div id="progressBar" style="height:6px; width:25%; background:linear-gradient(90deg,#6c63ff,#a78bfa); border-radius:0 6px 6px 0; transition:width 0.5s ease;"></div>
+      </div>
+
+      <!-- HEADER DO CARD -->
+      <div style="padding:28px 32px 0 32px; text-align:center;">
+        <div id="stepIndicator" style="font-size:12px; font-weight:700; letter-spacing:2px; color:#a78bfa; text-transform:uppercase; margin-bottom:8px;">Etapa 1 de 4</div>
+        <div id="stepDots" style="display:flex; justify-content:center; gap:8px; margin-bottom:24px;">
+          <div class="dot" id="dot1" style="width:10px; height:10px; border-radius:50%; background:#6c63ff; transition:all 0.3s;"></div>
+          <div class="dot" id="dot2" style="width:10px; height:10px; border-radius:50%; background:#e0e0e0; transition:all 0.3s;"></div>
+          <div class="dot" id="dot3" style="width:10px; height:10px; border-radius:50%; background:#e0e0e0; transition:all 0.3s;"></div>
+          <div class="dot" id="dot4" style="width:10px; height:10px; border-radius:50%; background:#e0e0e0; transition:all 0.3s;"></div>
+        </div>
+      </div>
+
+      <!-- CONTEÚDO DAS ETAPAS -->
+      <div style="padding:0 32px 32px 32px;">
+
+        <!-- ===================== ETAPA 1 ===================== -->
+        <div id="step1" style="display:block;">
+          <div style="text-align:center; margin-bottom:24px;">
+            <div style="font-size:52px; margin-bottom:12px;">👋</div>
+            <h2 style="margin:0 0 10px 0; font-size:22px; font-weight:800; color:#1a1a2e;">Bem-vindo! Vamos começar</h2>
+            <p style="margin:0; font-size:14px; color:#6b7280; line-height:1.6;">Preencha seus dados básicos para iniciarmos o processo. Levará menos de 2 minutos.</p>
+          </div>
+
+          <div style="margin-bottom:16px;">
+            <label style="display:block; font-size:13px; font-weight:700; color:#374151; margin-bottom:6px;">Nome completo *</label>
+            <input id="s1_nome" type="text" placeholder="Ex: João da Silva"
+              style="width:100%; box-sizing:border-box; padding:12px 16px; border:2px solid #e5e7eb; border-radius:10px; font-size:15px; color:#1a1a2e; outline:none; transition:border 0.3s;"
+              onfocus="this.style.borderColor='#6c63ff'" onblur="this.style.borderColor='#e5e7eb'" />
+          </div>
+
+          <div style="margin-bottom:16px;">
+            <label style="display:block; font-size:13px; font-weight:700; color:#374151; margin-bottom:6px;">E-mail *</label>
+            <input id="s1_email" type="email" placeholder="Ex: joao@email.com"
+              style="width:100%; box-sizing:border-box; padding:12px 16px; border:2px solid #e5e7eb; border-radius:10px; font-size:15px; color:#1a1a2e; outline:none; transition:border 0.3s;"
+              onfocus="this.style.borderColor='#6c63ff'" onblur="this.style.borderColor='#e5e7eb'" />
+          </div>
+
+          <div style="margin-bottom:28px;">
+            <label style="display:block; font-size:13px; font-weight:700; color:#374151; margin-bottom:6px;">Telefone / WhatsApp *</label>
+            <input id="s1_tel" type="tel" placeholder="(11) 99999-9999"
+              style="width:100%; box-sizing:border-box; padding:12px 16px; border:2px solid #e5e7eb; border-radius:10px; font-size:15px; color:#1a1a2e; outline:none; transition:border 0.3s;"
+              onfocus="this.style.borderColor='#6c63ff'" onblur="this.style.borderColor='#e5e7eb'" />
+          </div>
+
+          <div id="err1" style="display:none; background:#fff0f0; border:1px solid #fca5a5; border-radius:8px; padding:10px 14px; font-size:13px; color:#dc2626; margin-bottom:16px;"></div>
+
+          <button onclick="goToStep(2)"
+            style="width:100%; padding:14px; background:linear-gradient(135deg,#6c63ff,#a78bfa); color:#fff; border:none; border-radius:12px; font-size:16px; font-weight:800; cursor:pointer; letter-spacing:0.5px; transition:opacity 0.2s; box-shadow:0 6px 20px rgba(108,99,255,0.4);"
+            onmouseover="this.style.opacity='0.88'" onmouseout="this.style.opacity='1'">
+            Continuar →
+          </button>
+        </div>
+
+        <!-- ===================== ETAPA 2 ===================== -->
+        <div id="step2" style="display:none;">
+          <div style="text-align:center; margin-bottom:24px;">
+            <div style="font-size:52px; margin-bottom:12px;">🎯</div>
+            <h2 style="margin:0 0 10px 0; font-size:22px; font-weight:800; color:#1a1a2e;">Qual é o seu perfil?</h2>
+            <p style="margin:0; font-size:14px; color:#6b7280; line-height:1.6;">Selecione a opção que melhor descreve você para personalizarmos sua experiência.</p>
+          </div>
+
+          <div id="profileOptions" style="display:flex; flex-direction:column; gap:12px; margin-bottom:28px;">
+
+            <div class="optCard" id="opt_empreendedor" onclick="selectOption('perfil','empreendedor')"
+              style="padding:14px 18px; border:2px solid #e5e7eb; border-radius:12px; cursor:pointer; display:flex; align-items:center; gap:14px; transition:all 0.25s;">
+              <span style="font-size:26px;">🚀</span>
+              <div>
+                <div style="font-weight:700; font-size:14px; color:#1a1a2e;">Empreendedor</div>
+                <div style="font-size:12px; color:#6b7280;">Tenho ou quero abrir um negócio</div>
+              </div>
+            </div>
+
+            <div class="optCard" id="opt_autonomo" onclick="selectOption('perfil','autonomo')"
+              style="padding:14px 18px; border:2px solid #e5e7eb; border-radius:12px; cursor:pointer; display:flex; align-items:center; gap:14px; transition:all 0.25s;">
+              <span style="font-size:26px;">💼</span>
+              <div>
+                <div style="font-weight:700; font-size:14px; color:#1a1a2e;">Profissional Autônomo</div>
+                <div style="font-size:12px; color:#6b7280;">Presto serviços por conta própria</div>
+              </div>
+            </div>
+
+            <div class="optCard" id="opt_clt" onclick="selectOption('perfil','clt')"
+              style="padding:14px 18px; border:2px solid #e5e7eb; border-radius:12px; cursor:pointer; display:flex; align-items:center; gap:14px; transition:all 0.25s;">
+              <span style="font-size:26px;">🏢</span>
+              <div>
+                <div style="font-weight:700; font-size:14px; color:#1a1a2e;">Colaborador CLT</div>
+                <div style="font-size:12px; color:#6b7280;">Trabalho em empresa com registro</div>
+              </div>
+            </div>
+
+            <div class="optCard" id="opt_estudante" onclick="selectOption('perfil','estudante')"
+              style="padding:14px 18px; border:2px solid #e5e7eb; border-radius:12px; cursor:pointer; display:flex; align-items:center; gap:14px; transition:all 0.25s;">
+              <span style="font-size:26px;">🎓</span>
+              <div>
+                <div style="font-weight:700; font-size:14px; color:#1a1a2e;">Estudante</div>
+                <div style="font-size:12px; color:#6b7280;">Ainda estou me formando</div>
+              </div>
+            </div>
+
+          </div>
+
+          <div id="err2" style="display:none; background:#fff0f0; border:1px solid #fca5a5; border-radius:8px; padding:10px 14px; font-size:13px; color:#dc2626; margin-bottom:16px;"></div>
+
+          <div style="display:flex; gap:10px;">
+            <button onclick="goToStep(1)"
+              style="flex:1; padding:14px; background:#f3f4f6; color:#374151; border:none; border-radius:12px; font-size:15px; font-weight:700; cursor:pointer; transition:opacity 0.2s;"
+              onmouseover="this.style.opacity='0.75'" onmouseout="this.style.opacity='1'">
+              ← Voltar
+            </button>
+            <button onclick="goToStep(3)"
+              style="flex:2; padding:14px; background:linear-gradient(135deg,#6c63ff,#a78bfa); color:#fff; border:none; border-radius:12px; font-size:16px; font-weight:800; cursor:pointer; transition:opacity 0.2s; box-shadow:0 6px 20px rgba(108,99,255,0.4);"
+              onmouseover="this.style.opacity='0.88'" onmouseout="this.style.opacity='1'">
+              Continuar →
+            </button>
+          </div>
+        </div>
+
+        <!-- ===================== ETAPA 3 ===================== -->
+        <div id="step3" style="display:none;">
+          <div style="text-align:center; margin-bottom:24px;">
+            <div style="font-size:52px; margin-bottom:12px;">📊</div>
+            <h2 style="margin:0 0 10px 0; font-size:22px; font-weight:800; color:#1a1a2e;">Qual é a sua renda mensal?</h2>
+            <p style="margin:0; font-size:14px; color:#6b7280; line-height:1.6;">Essa informação nos ajuda a encontrar a melhor solução para o seu momento financeiro.</p>
+          </div>
+
+          <!-- SLIDER DE RENDA -->
+          <div style="margin-bottom:12px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <span style="font-size:13px; color:#6b7280; font-weight:600;">Renda estimada:</span>
+              <span id="rendaDisplay" style="font-size:18px; font-weight:900; color:#6c63ff;">R$ 3.000</span>
+            </div>
+            <input id="s3_renda" type="range" min="500" max="50000" step="500" value="3000"
+              oninput="updateRendaDisplay(this.value)"
+              style="width:100%; height:6px; accent-color:#6c63ff; cursor:pointer;" />
+            <div style="display:flex; justify-content:space-between; margin-top:4px;">
+              <span style="font-size:11px; color:#9ca3af;">R$ 500</span>
+              <span style="font-size:11px; color:#9ca3af;">R$ 50.000+</span>
+            </div>
+          </div>
+
+          <!-- FAIXAS RÁPIDAS -->
+          <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:28px; margin-top:16px;">
+            <button onclick="setRenda(1500)" id="faixa_1500"
+              style="flex:1; min-width:calc(50% - 4px); padding:8px 10px; border:2px solid #e5e7eb; border-radius:8px; background:#fff; font-size:12px; font-weight:700; color:#374151; cursor:pointer; transition:all 0.2s;">
+              Até R$ 1.500
+            </button>
+            <button onclick="setRenda(3000)" id="faixa_3000"
+              style="flex:1; min-width:calc(50% - 4px); padding:8px 10px; border:2px solid #e5e7eb; border-radius:8px; background:#fff; font-size:12px; font-weight:700; color:#374151; cursor:pointer; transition:all 0.2s;">
+              R$ 1.500 – R$ 3.000
+            </button>
+            <button onclick="setRenda(7000)" id="faixa_7000"
+              style="flex:1; min-width:calc(50% - 4px); padding:8px 10px; border:2px solid #e5e7eb; border-radius:8px; background:#fff; font-size:12px; font-weight:700; color:#374151; cursor:pointer; transition:all 0.2s;">
+              R$ 3.000 – R$ 7.000
+            </button>
+            <button onclick="setRenda(15000)" id="faixa_15000"
+              style="flex:1; min-width:calc(50% - 4px); padding:8px 10px; border:2px solid #e5e7eb; border-radius:8px; background:#fff; font-size:12px; font-weight:700; color:#374151; cursor:pointer; transition:all 0.2s;">
+              Acima de R$ 7.000
+            </button>
+          </div>
+
+          <div style="margin-bottom:28px;">
+            <label style="display:block; font-size:13px; font-weight:700; color:#374151; margin-bottom:6px;">Possui alguma dívida ativa? *</label>
+            <div style="display:flex; gap:10px;">
+              <button onclick="selectOption('divida','sim')" id="opt_divida_sim"
+                style="flex:1; padding:12px; border:2px solid #e5e7eb; border-radius:10px; background:#fff; font-size:14px; font-weight:700; color:#374151; cursor:pointer; transition:all 0.2s;">
+                😓 Sim
+              </button>
+              <button onclick="selectOption('divida','nao')" id="opt_divida_nao"
+                style="flex:1; padding:12px; border:2px solid #e5e7eb; border-radius:10px; background:#fff; font-size:14px; font-weight:700; color:#374151; cursor:pointer; transition:all 0.2s;">
+                😊 Não
+              </button>
+            </div>
+          </div>
+
+          <div id="err3" style="display:none; background:#fff0f0; border:1px solid #fca5a5; border-radius:8px; padding:10px 14px; font-size:13px; color:#dc2626; margin-bottom:16px;"></div>
+
+          <div style="display:flex; gap:10px;">
+            <button onclick="goToStep(2)"
+              style="flex:1; padding:14px; background:#f3f4f6; color:#374151; border:none; border-radius:12px; font-size:15px; font-weight:700; cursor:pointer; transition:opacity 0.2s;"
+              onmouseover="this.style.opacity='0.75'" onmouseout="this.style.opacity='1'">
+              ← Voltar
+            </button>
+            <button onclick="goToStep(4)"
+              style="flex:2; padding:14px; background:linear-gradient(135deg,#6c63ff,#a78bfa); color:#fff; border:none; border-radius:12px; font-size:16px; font-weight:800; cursor:pointer; transition:opacity 0.2s; box-shadow:0 6px 20px rgba(108,99,255,0.4);"
+              onmouseover="this.style.opacity='0.88'" onmouseout="this.style.opacity='1'">
+              Continuar →
+            </button>
+          </div>
+        </div>
+
+        <!-- ===================== ETAPA 4 ===================== -->
+        <div id="step4" style="display:none;">
+          <div style="text-align:center; margin-bottom:24px;">
+            <div style="font-size:52px; margin-bottom:12px;">🏁</div>
+            <h2 style="margin:0 0 10px 0; font-size:22px; font-weight:800; color:#1a1a2e;">Quase lá! Revise seus dados</h2>
+            <p style="margin:0; font-size:14px; color:#6b7280; line-height:1.6;">Confirme as informações antes de finalizar o cadastro.</p>
+          </div>
+
+          <!-- CARD DE RESUMO -->
+          <div id="summaryCard" style="background:#f8f7ff; border:1.5px solid #e0dcff; border-radius:14px; padding:20px; margin-bottom:24px;">
+
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid #ede9fe;">
+              <span style="font-size:13px; color:#6b7280; font-weight:600;">👤 Nome</span>
+              <span id="sum_nome" style="font-size:14px; font-weight:800; color:#1a1a2e; text-align:right; max-width:60%;">—</span>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid #ede9fe;">
+              <span style="font-size:13px; color:#6b7280; font-weight:600;">📧 E-mail</span>
+              <span id="sum_email" style="font-size:14px; font-weight:800; color:#1a1a2e; text-align:right; max-width:60%; word-break:break-all;">—</span>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid #ede9fe;">
+              <span style="font-size:13px; color:#6b7280; font-weight:600;">📱 Telefone</span>
+              <span id="sum_tel" style="font-size:14px; font-weight:800; color:#1a1a2e;">—</span>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid #ede9fe;">
+              <span style="font-size:13px; color:#6b7280; font-weight:600;">🎯 Perfil</span>
+              <span id="sum_perfil" style="font-size:14px; font-weight:800; color:#6c63ff;">—</span>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid #ede9fe;">
+              <span style="font-size:13px; color:#6b7280; font-weight:600;">💰 Renda</span>
+              <span id="sum_renda" style="font-size:14px; font-weight:800; color:#6c63ff;">—</span>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0;">
+              <span style="font-size:13px; color:#6b7280; font-weight:600;">💳 Dívida ativa</span>
+              <span id="sum_divida" style="font-size:14px; font-weight:800; color:#6c63ff;">—</span>
+            </div>
+
+          </div>
+
+          <!-- TERMOS -->
+          <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:24px;">
+            <input type="checkbox" id="s4_termos" style="margin-top:3px; width:16px; height:16px; accent-color:#6c63ff; cursor:pointer; flex-shrink:0;" />
+            <label for="s4_termos" style="font-size:13px; color:#6b7280; line-height:1.6; cursor:pointer;">
+              Li e concordo com os <span style="color:#6c63ff; font-weight:700; text-decoration:underline; cursor:pointer;">Termos de Uso</span> e a <span style="color:#6c63ff; font-weight:700; text-decoration:underline; cursor:pointer;">Política de Privacidade</span>.
+            </label>
+          </div>
+
+          <div id="err4" style="display:none; background:#fff0f0; border:1px solid #fca5a5; border-radius:8px; padding:10px 14px; font-size:13px; color:#dc2626; margin-bottom:16px;"></div>
+
+          <div style="display:flex; gap:10px;">
+            <button onclick="goToStep(3)"
+              style="flex:1; padding:14px; background:#f3f4f6; color:#374151; border:none; border-radius:12px; font-size:15px; font-weight:700; cursor:pointer; transition:opacity 0.2s;"
+              onmouseover="this.style.opacity='0.75'" onmouseout="this.style.opacity='1'">
+              ← Voltar
+            </button>
+            <button onclick="submitForm()"
+              style="flex:2; padding:14px; background:linear-gradient(135deg,#10b981,#34d399); color:#fff; border:none; border-radius:12px; font-size:16px; font-weight:800; cursor:pointer; transition:opacity 0.2s; box-shadow:0 6px 20px rgba(16,185,129,0.4);"
+              onmouseover="this.style.opacity='0.88'" onmouseout="this.style.opacity='1'">
+              ✅ Confirmar Cadastro
+            </button>
+          </div>
+        </div>
+
+        <!-- ===================== SUCESSO ===================== -->
+        <div id="stepSuccess" style="display:none; text-align:center; padding:20px 0;">
+          <div style="font-size:72px; margin-bottom:16px; animation: none;">🎉</div>
+          <h2 style="margin:0 0 12px 0; font-size:24px; font-weight:900; color:#1a1a2e;">Cadastro realizado!</h2>
+          <p style="margin:0 0 24px 0; font-size:15px; color:#6b7280; line-height:1.7;">
+            Obrigado, <strong id="suc_nome" style="color:#6c63ff;"></strong>!<br>
+            Em breve entraremos em contato pelo e-mail e WhatsApp informados.
+          </p>
+          <div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7); border:1.5px solid #86efac; border-radius:14px; padding:18px; margin-bottom:24px;">
+            <div style="font-size:13px; color:#16a34a; font-weight:700;">✔ Dados recebidos com sucesso</div>
+            <div style="font-size:12px; color:#4ade80; margin-top:4px;">ID: <span id="suc_id" style="font-weight:800;"></span></div>
+          </div>
+          <button onclick="resetForm()"
+            style="width:100%; padding:14px; background:linear-gradient(135deg,#6c63ff,#a78bfa); color:#fff; border:none; border-radius:12px; font-size:15px; font-weight:800; cursor:pointer; box-shadow:0 6px 20px rgba(108,99,255,0.4);"
+            onmouseover="this.style.opacity='0.88'" onmouseout="this.style.opacity='1'">
+            Fazer novo cadastro
+          </button>
+        </div>
+
+      </div>
+      <!-- /CONTEÚDO DAS ETAPAS -->
+
+    </div>
+    <!-- /CARD PRINCIPAL -->
+
+    <!-- RODAPÉ -->
+    <div style="text-align:center; margin-top:20px; font-size:12px; color:rgba(255,255,255,0.5);">
+      🔒 Seus dados estão protegidos &nbsp;|&nbsp; Agente 1 – v1.0
+    </div>
+
+  </div>
+  <!-- /WRAPPER -->
+
+  <script>
+    // ============================================================
+    //  ESTADO GLOBAL DA APLICAÇÃO
+    // ============================================================
+    var state = {
+      currentStep: 1,
+      perfil: null,
+      divida: null,
+      renda: 3000
+    };
+
+    // ============================================================
+    //  NAVEGAÇÃO ENTRE ETAPAS
+    // ============================================================
+    function goToStep(targetStep) {
+      if (targetStep > state.currentStep) {
+        if (!validateStep(state.currentStep)) return;
+      }
+
+      // Ocultar etapa atual
+      var currentEl = document.getElementById('step' + state.currentStep);
+      if (currentEl) currentEl.style.display = 'none';
+
+      // Se for sucesso
+      if (targetStep === 'success') {
+        document.getElementById('stepSuccess').style.display = 'block';
+        document.getElementById('progressBar').style.width = '100%';
+        document.getElementById('stepIndicator').innerText = 'Concluído! ✅';
+        updateDots(5);
+        return;
+      }
+
+      // Mostrar nova etapa
+      state.currentStep = targetStep;
+      var nextEl = document.getElementById('step' + targetStep);
+      if (nextEl) {
+        nextEl.style.display = 'block';
+        // Animação suave de entrada
+        nextEl.style.opacity = '0';
+        nextEl.style.transform = 'translateY(12px)';
+        nextEl.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
+        setTimeout(function () {
+          nextEl.style.opacity = '1';
+          nextEl.style.transform = 'translateY(0)';
+        }, 20);
+      }
+
+      // Atualizar indicadores
+      document.getElementById('stepIndicator').innerText = 'Etapa ' + targetStep + ' de 4';
+      document.getElementById('progressBar').style.width = (targetStep * 25) + '%';
+      updateDots(targetStep);
+
+      // Preencher resumo ao chegar na etapa 4
+      if (targetStep === 4) fillSummary();
+
+      // Scroll suave ao topo do card
+      document.getElementById('card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // ============================================================
+    //  ATUALIZAR DOTS DE PROGRESSO
+    // ============================================================
+    function updateDots(activeStep) {
+      for (var i = 1; i <= 4; i++) {
+        var dot = document.getElementById('dot' + i);
+        if (!dot) continue;
+        if (i < activeStep) {
+          dot.style.background = '#10b981';
+          dot.style.width = '10px';
+        } else if (i === activeStep) {
+          dot.style.background = '#6c63ff';
+          dot.style.width = '18px';
+          dot.style.borderRadius = '5px';
+        } else {
+          dot.style.background = '#e0e0e0';
+          dot.style.width = '10px';
+          dot.style.borderRadius = '50%';
+        }
+      }
+    }
+
+    // ============================================================
+    //  VALIDAÇÕES POR ETAPA
+    // ============================================================
+    function validateStep(step) {
+      clearErrors();
+
+      if (step === 1) {
+        var nome = document.getElementById('s1_nome').value.trim();
+        var email = document.getElementById('s1_email').value.trim();
+        var tel = document.getElementById('s1_tel').value.trim();
+        var errs = [];
+        if (nome.length < 3) errs.push('• Informe seu nome completo (mín. 3 caracteres).');
+        if (!isValidEmail(email)) errs.push('• Informe um e-mail válido.');
+        if (tel.length <
+</html>
