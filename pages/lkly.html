@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Funil de Vendas - Sistema Completo</title>
+</head>
+<body style="margin:0;padding:0;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#0a0a0a;color:#fff;min-height:100vh;">
+
+<!-- ========== TELA 1 - HERO/CAPTURA ========== -->
+<div id="tela1" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:20px;box-sizing:border-box;background:linear-gradient(135deg,#0a0a0a 0%,#1a0a2e 50%,#0a0a0a 100%);">
+  
+  <div style="max-width:700px;width:100%;text-align:center;">
+    
+    <div style="display:inline-block;background:linear-gradient(90deg,#ff6b00,#ff9500);padding:8px 20px;border-radius:50px;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:24px;">
+      🔥 MÉTODO EXCLUSIVO
+    </div>
+    
+    <h1 style="font-size:clamp(28px,5vw,52px);font-weight:900;line-height:1.1;margin:0 0 20px 0;background:linear-gradient(135deg,#fff 0%,#ff9500 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">
+      Descubra o Segredo que Está Transformando Vidas em 2025
+    </h1>
+    
+    <p style="font-size:clamp(16px,2.5vw,20px);color:#ccc;line-height:1.6;margin:0 0 32px 0;">
+      Mais de <strong style="color:#ff9500;">47.000 pessoas</strong> já aplicaram este método e alcançaram resultados extraordinários. Responda 4 perguntas rápidas e descubra seu potencial.
+    </p>
+    
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:16px;margin-bottom:40px;">
+      <div style="background:rgba(255,107,0,0.1);border:1px solid rgba(255,107,0,0.3);border-radius:12px;padding:16px 24px;flex:1;min-width:140px;max-width:200px;">
+        <div style="font-size:28px;font-weight:900;color:#ff9500;">47K+</div>
+        <div style="font-size:13px;color:#999;">Pessoas Transformadas</div>
+      </div>
+      <div style="background:rgba(255,107,0,0.1);border:1px solid rgba(255,107,0,0.3);border-radius:12px;padding:16px 24px;flex:1;min-width:140px;max-width:200px;">
+        <div style="font-size:28px;font-weight:900;color:#ff9500;">4 min</div>
+        <div style="font-size:13px;color:#999;">Para Descobrir</div>
+      </div>
+      <div style="background:rgba(255,107,0,0.1);border:1px solid rgba(255,107,0,0.3);border-radius:12px;padding:16px 24px;flex:1;min-width:140px;max-width:200px;">
+        <div style="font-size:28px;font-weight:900;color:#ff9500;">100%</div>
+        <div style="font-size:13px;color:#999;">Gratuito</div>
+      </div>
+    </div>
+    
+    <button onclick="irParaTela(2)" style="background:linear-gradient(90deg,#ff6b00,#ff9500);color:#fff;border:none;padding:20px 48px;border-radius:50px;font-size:clamp(16px,2.5vw,20px);font-weight:800;cursor:pointer;text-transform:uppercase;letter-spacing:1px;box-shadow:0 8px 32px rgba(255,107,0,0.4);transition:transform 0.2s,box-shadow 0.2s;width:100%;max-width:400px;" onmouseover="this.style.transform='scale(1.05)';this.style.boxShadow='0 12px 40px rgba(255,107,0,0.6)';" onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 8px 32px rgba(255,107,0,0.4)';">
+      🚀 QUERO DESCOBRIR AGORA
+    </button>
+    
+    <p style="font-size:12px;color:#666;margin-top:16px;">✅ Sem spam • ✅ 100% gratuito • ✅ Resultado imediato</p>
+    
+  </div>
+</div>
+
+<!-- ========== TELA 2 - PERGUNTA 1 ========== -->
+<div id="tela2" style="display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:20px;box-sizing:border-box;background:linear-gradient(135deg,#0a0a0a 0%,#1a0a2e 50%,#0a0a0a 100%);">
+  
+  <div style="max-width:600px;width:100%;">
+    
+    <!-- Progress Bar -->
+    <div style="margin-bottom:32px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <span style="font-size:13px;color:#999;">Pergunta 1 de 4</span>
+        <span style="font-size:13px;color:#ff9500;font-weight:700;">25%</span>
+      </div>
+      <div style="background:#1a1a2e;border-radius:50px;height:8px;overflow:hidden;">
+        <div style="background:linear-gradient(90deg,#ff6b00,#ff9500);height:100%;width:25%;border-radius:50px;transition:width 0.5s ease;"></div>
+      </div>
+    </div>
+    
+    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:clamp(24px,5vw,48px);">
+      
+      <div style="font-size:clamp(20px,4vw,28px);font-weight:800;margin-bottom:8px;line-height:1.3;">
+        Qual é o seu maior objetivo <span style="color:#ff9500;">financeiro</span> hoje?
+      </div>
+      <p style="font-size:15px;color:#888;margin:0 0 32px 0;">Seja honesto — isso nos ajuda a personalizar sua jornada</p>
+      
+      <div style="display:flex;flex-direction:column;gap:12px;" id="opcoes1">
+        
+        <button onclick="selecionarOpcao(this,'q1','renda_extra')" style="background:rgba(255,255,255,0.04);border:2px solid rgba(255,255,255,0.1);border-radius:14px;padding:18px 20px;color:#fff;font-size:clamp(14px,2vw,16px);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:16px;" onmouseover="this.style.borderColor='rgba(255,107,0,0.5)';this.style.background='rgba(255,107,0,0.08)';" onmouseout="if(!this.classList.contains('selected')){this.style.borderColor='rgba(255,255,255,0.1)';this.style.background='rgba(255,255,255,0.04)';}">
+          <span style="font-size:24px;">💰</span>
+          <div>
+            <div style="font-weight:700;">Gerar uma renda extra</div>
+            <div style="font-size:13px;color:#888;margin-top:2px;">Complementar meu salário atual</div>
+          </div>
+        </button>
+        
+        <button onclick="selecionarOpcao(this,'q1','liberdade')" style="background:rgba(255,255,255,0.04);border:2px solid rgba(255,255,255,0.1);border-radius:14px;padding:18px 20px;color:#fff;font-size:clamp(14px,2vw,16px);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:16px;" onmouseover="this.style.borderColor='rgba(255,107,0,0.5)';this.style.background='rgba(255,107,0,0.08)';" onmouseout="if(!this.classList.contains('selected')){this.style.borderColor='rgba(255,255,255,0.1)';this.style.background='rgba(255,255,255,0.04)';}">
+          <span style="font-size:24px;">🏖️</span>
+          <div>
+            <div style="font-weight:700;">Conquistar liberdade financeira</div>
+            <div style="font-size:13px;color:#888;margin-top:2px;">Largar o emprego e trabalhar por conta</div>
+          </div>
+        </button>
+        
+        <button onclick="selecionarOpcao(this,'q1','negocios')" style="background:rgba(255,255,255,0.04);border:2px solid rgba(255,255,255,0.1);border-radius:14px;padding:18px 20px;color:#fff;font-size:clamp(14px,2vw,16px);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:16px;" onmouseover="this.style.borderColor='rgba(255,107,0,0.5)';this.style.background='rgba(255,107,0,0.08)';" onmouseout="if(!this.classList.contains('selected')){this.style.borderColor='rgba(255,255,255,0.1)';this.style.background='rgba(255,255,255,0.04)';}">
+          <span style="font-size:24px;">🚀</span>
+          <div>
+            <div style="font-weight:700;">Escalar meu negócio</div>
+            <div style="font-size:13px;color:#888;margin-top:2px;">Já tenho algo e quero crescer mais</div>
+          </div>
+        </button>
+        
+        <button onclick="selecionarOpcao(this,'q1','investir')" style="background:rgba(255,255,255,0.04);border:2px solid rgba(255,255,255,0.1);border-radius:14px;padding:18px 20px;color:#fff;font-size:clamp(14px,2vw,16px);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:16px;" onmouseover="this.style.borderColor='rgba(255,107,0,0.5)';this.style.background='rgba(255,107,0,0.08)';" onmouseout="if(!this.classList.contains('selected')){this.style.borderColor='rgba(255,255,255,0.1)';this.style.background='rgba(255,255,255,0.04)';}">
+          <span style="font-size:24px;">📈</span>
+          <div>
+            <div style="font-weight:700;">Aprender a investir melhor</div>
+            <div style="font-size:13px;color:#888;margin-top:2px;">Fazer meu dinheiro trabalhar por mim</div>
+          </div>
+        </button>
+        
+      </div>
+      
+      <button id="btnQ1" onclick="irParaTela(3)" style="display:none;background:linear-gradient(90deg,#ff6b00,#ff9500);color:#fff;border:none;padding:18px;border-radius:14px;font-size:16px;font-weight:800;cursor:pointer;width:100%;margin-top:20px;letter-spacing:1px;" onmouseover="this.style.opacity='0.9';" onmouseout="this.style.opacity='1';">
+        PRÓXIMA PERGUNTA →
+      </button>
+      
+    </div>
+  </div>
+</div>
+
+<!-- ========== TELA 3 - PERGUNTA 2 ========== -->
+<div id="tela3" style="display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:20px;box-sizing:border-box;background:linear-gradient(135deg,#0a0a0a 0%,#1a0a2e 50%,#0a0a0a 100%);">
+  
+  <div style="max-width:600px;width:100%;">
+    
+    <div style="margin-bottom:32px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <span style="font-size:13px;color:#999;">Pergunta 2 de 4</span>
+        <span style="font-size:13px;color:#ff9500;font-weight:700;">50%</span>
+      </div>
+      <div style="background:#1a1a2e;border-radius:50px;height:8px;overflow:hidden;">
+        <div style="background:linear-gradient(90deg,#ff6b00,#ff9500);height:100%;width:50%;border-radius:50px;transition:width 0.5s ease;"></div>
+      </div>
+    </div>
+    
+    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:clamp(24px,5vw,48px);">
+      
+      <div style="font-size:clamp(20px,4vw,28px);font-weight:800;margin-bottom:8px;line-height:1.3;">
+        Quanto tempo você pode dedicar <span style="color:#ff9500;">por dia</span>?
+      </div>
+      <p style="font-size:15px;color:#888;margin:0 0 32px 0;">Não importa quanto — há um caminho para cada realidade</p>
+      
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        
+        <button onclick="selecionarOpcao(this,'q2','30min')" style="background:rgba(255,255,255,0.04);border:2px solid rgba(255,255,255,0.1);border-radius:14px;padding:18px 20px;color:#fff;font-size:clamp(14px,2vw,16px);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:16px;" onmouseover="this.style.borderColor='rgba(255,107,0,0.5)';this.style.background='rgba(255,107,0,0.08)';" onmouseout="if(!this.classList.contains('selected')){this.style.borderColor='rgba(255,255,255,0.1)';this.style.background='rgba(255,255,255,0.04)';}">
+          <span style="font-size:24px;">⚡</span>
+          <div>
+            <div style="font-weight:700;">Menos de 30 minutos</div>
+            <div style="font-size:13px;color:#888;margin-top:2px;">Rotina muito ocupada</div>
+          </div>
+        </button>
+        
+        <button onclick="selecionarOpcao(this,'q2','1hora')" style="background:rgba(255,255,255,0.04);border:2px solid rgba(255,255,255,0.1);border-radius:14px;padding:18px 20px;color:#fff;font-size:clamp(14px,2vw,16px);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:16px;" onmouseover="this.style.borderColor='rgba(255,107,0,0.5)';this.style.background='rgba(255,107,0,0.08)';" onmouseout="if(!this.classList.contains('selected')){this.style.borderColor='rgba(255,255,255,0.1)';this.style.background='rgba(255,255,255,0.04)';}">
+          <span style="font-size:24px;">⏰</span>
+          <div>
+            <div style="font-weight:700;">30 min a 1 hora</div>
+            <div style="font-size:13px;color:#888;margin-top:2px;">Consigo reservar um tempinho</div>
+          </div>
+        </button>
+        
+        <button onclick="selecionarOpcao(this,'q2','2horas')" style="background:rgba(255,255,255,0.04);border:2px solid rgba(255,255,255,0.1);border-radius:14px;padding:18px 20px;color:#fff;font-size:clamp(14px,2vw,16px);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:16px;" onmouseover="this.style.borderColor='rgba(255,107,0,0.5)';this.style.background='rgba(255,107,0,0.08)';" onmouseout="if(!this.classList.contains('selected')){this.style.borderColor='rgba(255,255,255,0.1)';this.style.background='rgba(255,255,255,0.04)';}">
+          <span style="font-size:24px;">💪</span>
+          <div>
+            <div style="font-weight:700;">1 a 2 horas</div>
+            <div style="font-size:13px;color:#888;margin-top:2px;">Estou comprometido</div>
+          </div>
+        </button>
+        
+        <button onclick="selecionarOpcao(this,'q2','full')" style="background:rgba(255,255,255,0.04);border:2px solid rgba(255,255,255,0.1);border-radius:14px;padding:18px 20px;color:#fff;font-size:clamp(14px,2vw,16px);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:16px;" onmouseover="this.style.borderColor='rgba(255,107,0,0.5)';this.style.background='rgba(255,107,0,0.08)';" onmouseout="if(!this.classList.contains('selected')){this.style.borderColor='rgba(255,255,255,0.1)';this.style.background='rgba(255,255,255,0.04)';}">
+          <span style="font-size:24px;">🔥</span>
+          <div>
+            <div style="font-weight:700;">Tempo integral disponível</div>
+            <div style="font-size:13px;color:#888;margin-top:2px;">Quero acelerar ao máximo</div>
+          </div>
+        </button>
+        
+      </div>
+      
+      <button id="btnQ2" onclick="irParaTela(4)" style="display:none;background:linear-gradient(90deg,#ff6b00,#ff9500);color:#fff;border:none;padding:18px;border-radius:14px;font-size:16px;font-weight:800;cursor:pointer;width:100%;margin-top:20px;letter-spacing:1px;" onmouseover="this.style.opacity='0.9';" onmouseout="this.style.opacity='1';">
+        PRÓXIMA PERGUNTA →
+      </button>
+      
+    </div>
+  </div>
+</div>
+
+<!-- ========== TELA 4 - PERGUNTA 3 ========== -->
+<div id="tela4" style="display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:20px;box-sizing:border-box;background:linear-gradient(135deg,#0a0a0a 0%,#1a0a2e 50%,#0a0a0a 100%);">
+  
+  <div style="max-width:600px;width:100%;">
+    
+    <div style="margin-bottom:32px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <span style="font-size:13px;color:#999;">Pergunta 3 de 4</span>
+        <span style="font-size:13px;color:#ff9500;font-weight:700;">75%</span>
+      </div>
+      <div style="background:#1a1a2e;border-radius:50px;height:8px;overflow:hidden;">
+        <div style="background:linear-gradient(90deg,#ff6b00,#ff9500);height:100%;width:75%;border-radius:50px;transition:width 0.5s ease;"></div>
+      </div>
+    </div>
+    
+    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:clamp(24px,5vw,48px);">
+      
+      <div style="font-size:clamp(20px,4vw,28px);font-weight:800;margin-bottom:8px;line-height:1.3;">
+        Qual é o seu <span style="color:#ff9500;">nível de experiência</span> com renda online?
+      </div>
+      <p style="font-size:15px;color:#888;margin:0 0 32px 0;">Sem julgamentos — queremos encontrar o melhor ponto de partida</p>
+      
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        
+        <button onclick="selecionarOpcao(this,'q3','zero')" style="background:rgba(255,255,255,0.04);border:2px solid rgba(255,255,255,0.1);border-radius:14px;padding:18px 20px;color:#fff;font-size:clamp(14px,2vw,16px);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:16px;" onmouseover="this.style.borderColor='rgba(255,107,0,0.5)';this.style.background='rgba(255,107,0,0.08)';" onmouseout="if(!this.classList.contains('selected')){this.style.borderColor='rgba(255,255,255,0.1)';this.style.background='rgba(255,255,255,0.04)';}">
+          <span style="font-size:24px;">🌱</span>
+          <div>
+            <div style="font-weight:700;">Sou completamente iniciante</div>
+            <div style="font-size:13px;color:#888;margin-top:2px;">Nunca tentei nada online antes</div>
+          </div>
+        </button>
+        
+        <button onclick="selecionarOpcao(this,'q3','tentei')" style="background:rgba(255,255,255,0.04);border:2px solid rgba(255,255,255,0.1);border-radius:14px;padding:18px 20px;color:#fff;font-size:clamp(14px,2vw,16px);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:16px;" onmouseover="this.style.borderColor='rgba(255,107,0,0.5)';this.style.background='rgba(255,107,0,0.08)';" onmouseout="if(!this.classList.contains('selected')){this.style.borderColor='rgba(255,255,255,0.1)';this.style.background='rgba(255,255,255,0.04)';}">
+          <span style="font-size:24px;">🎯</span>
+          <div>
+            <div style="font-weight:700;">Já tentei, mas sem resultado</div>
+            <div style="font-size:13px;color:#888;margin-top:2px;">Preciso de uma abordagem diferente</div>
+          </div>
+        </button>
+        
+        <button onclick="selecionarOpcao(this,'q3','algum')" style="background:rgba(255,255,255,0.04);border:2px solid rgba(255,255,255,0.1);border-radius:14px;padding:18px 20px;color:#fff;font-size:clamp(14px,2vw,16px);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:16px;" onmouseover="this.style.borderColor='rgba(255,107,0,0.5)';this.style.background='rgba(255,107,0,0.08)';" onmouseout="if(!this.classList.contains('selected')){this.style.borderColor='rgba(255,255,255,0.1)';this.style.background='rgba(255,255,255,0.04)';}">
+          <span style="font-size:24px;">⭐</span>
+          <div>
+            <div style="font-weight:700;">Tenho alguma experiência</div>
+            <div style="font-size:13px;color:#888;margin-top:2px;">Já ganhei algo, quero mais consistência</div>
+          </div>
+        </button>
+        
+        <button onclick="selecionarOpcao(this,'q3','avancado')" style="background:rgba(255,255,255,0.04);border:2px solid rgba(255,255,255,0.1);border-radius:14px;padding:18px 20px;color:#fff;font-size:clamp(14px,2vw,16px);cursor:pointer;text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:16px;" onmouseover="this.style.borderColor='rgba(255,107,0,0.5)';this.style.background='rgba(255,107,0,0.08)';" onmouseout="if(!this.classList.contains('selected')){this.style.borderColor='rgba(255,255,255,0.1)';this.style.background='rgba(255,255,255,0.04)';}">
+          <span style="font-size:24px;">🏆</span>
+          <div>
+            <div style="font-weight:700;">Sou avançado</div>
+            <div style="font-size:13px;color:#888;margin-top:2px;">Quero otimizar e escalar</div>
+          </div>
+        </button>
+        
+      </div>
+      
+      <button id="btnQ3" onclick="irParaTela(5)" style="display:none;background:linear-gradient(90deg,#ff6b00,#ff9500);color:#fff;border:none;padding:18px;border-radius:14px;font-size:16px;font-weight:800;cursor:pointer;width:100%;margin-top:20px;letter-spacing:1px;" onmouseover="this.style.opacity='0.9';" onmouseout="this.style.opacity='1';">
+        PRÓXIMA PERGUNTA →
+      </button>
+      
+    </div>
+  </div>
+</div>
+
+<!-- ========== TELA 5 - PERGUNTA 4 (ÚLTIMA) ========== -->
+<div id="tela5" style="display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:20px;box-sizing:border-box;background:linear-gradient(135deg,#0a0a0a 0%,#1a0a2e 50%,#0a0a0a 100%);">
+  
+  <div style="max-width:600px;width:100%;">
+    
+    <div style="margin-bottom:32px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <span style="font-size:13px;color:#999;">Última pergunta!</span>
+        <span style="font-size:13px;color:#ff9500;font-weight:700;">90%</span>
+      </div>
+      <div style="background:#1a1a2e;border-radius:50px;height:8px;overflow:hidden;">
+        <div style="background:linear-gradient(90deg,#ff6b00,#ff9500);height:100%;width:90%;border-radius:50px;transition:width 0.5s ease;"></div>
+      </div>
+    </div>
+    
+    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:clamp(24px,5vw,48px);">
+      
+      <div style="text-align:center;margin-bottom:8px;">
+        <span style="background:linear-gradient(90deg,#ff6b00,#ff9500);padding:6px 16px;border-radius:50px;font-size:12px;font-weight:700;letter-spacing:1px;">ÚLTIMA PERGUNTA</span>
+      </div>
+      
+      <div style="font-size:clamp(20px,4vw,28px);font-weight:800;margin:16px 0 8px 0;line-height:1.3;">
+        O que mais te impede de <span style="color:#ff9500;">agir agora</span>?
+      </div>
+      <p style="font-size:15px;color:#888;margin:0 0 32px 0;">Sua resposta é crucial para personalizarmos seu plano</p>
+      
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        
+        <button onclick="selecionarOpcao(this,'q4','medo')" style="background:rgba(255,255,255,0.04);border:2px solid rgba(255,255,
+</html>
